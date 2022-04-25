@@ -1,6 +1,5 @@
-mysql -u icaro -p;
 
-/*Criar usuario e dar dotos os privilégios para todas as operações*/
+/*Criar usuario e dar todos os privilégios para todas as operações*/
 CREATE USER 'icaro'@'localhost' IDENTIFIED BY '123123';
 
 GRANT ALL PRIVILEGES ON *.* TO 'icaro'@'localhost';
