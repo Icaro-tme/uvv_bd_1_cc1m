@@ -1,26 +1,29 @@
 
 
-/*Criar usuario e dar dotos os privilégios para todas as operações*/
+/*
+#Criar usuario 
+#& dar todos os privilégios para todas as operações
+*/
 CREATE USER 'icaro'@'localhost' IDENTIFIED BY '123123';
 
 GRANT ALL PRIVILEGES ON *.* TO 'icaro'@'localhost';
 
-/*Flush nos privilegios pra dar reload nos usuarios*/
+-->Flush nos privilegios pra dar reload nos usuarios
 FLUSH PRIVILEGES;
 
-/*sair da sessão mysql para entrar com usuário novo criado*/
+-->sair da sessão mysql para entrar com usuário novo criado
 
 exit
 
 mysql -u icaro -p;
 
-/*criar database*/
+-->criar database
 CREATE DATABASE UVV;
 
-/*selecionar satabase para fazer alterações/inserir dados*/
+-->selecionar satabase para fazer alterações/inserir dados
 USE UVV;
 
-/*criar tabela departamento & comentarios*/
+-->criar tabela departamento & comentarios
 CREATE TABLE departamento (
                 numero_departamento INT NOT NULL,
                 cpf_gerente CHAR(11) NOT NULL,
@@ -39,12 +42,12 @@ ALTER TABLE departamento MODIFY COLUMN nome_departamento VARCHAR(15) COMMENT 'No
 
 ALTER TABLE departamento MODIFY COLUMN data_inicio_gerente DATE COMMENT 'Data do início do gerente no departamento.';
 
-/*criar Indice Unico (AK) e adicioná-lo ao departamento.nome_departamento*/
+-->criar Indice Unico (AK) e adicioná-lo ao departamento.nome_departamento
 CREATE UNIQUE INDEX indunico
  ON departamento
  ( nome_departamento );
 
-/*criar tabela funcionario & comentarios*/
+-->criar tabela funcionario & comentarios
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
                 primeiro_nome VARCHAR(15) NOT NULL,
@@ -81,7 +84,7 @@ ALTER TABLE funcionario MODIFY COLUMN cpf_supervisor CHAR(11) COMMENT 'CPF do su
 
 ALTER TABLE funcionario MODIFY COLUMN numero_departamento INTEGER COMMENT 'Número do departamento do funcionário.';
 
-/*criar tabela dependente & comentarios*/
+-->criar tabela dependente & comentarios
 CREATE TABLE dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
@@ -103,7 +106,7 @@ ALTER TABLE dependente MODIFY COLUMN data_nascimento DATE COMMENT 'Data de nasci
 
 ALTER TABLE dependente MODIFY COLUMN parentesco VARCHAR(15) COMMENT 'Descrição do parentesco do dependente com o funcionário.';
 
-/*criar tabela projeto & comentarios*/
+-->criar tabela projeto & comentarios
 CREATE TABLE projeto (
                 numero_projeto INT NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
@@ -122,7 +125,7 @@ ALTER TABLE projeto MODIFY COLUMN local_projeto VARCHAR(15) COMMENT 'Localizaç�
 
 ALTER TABLE projeto MODIFY COLUMN numero_departamento INTEGER COMMENT 'Número do departamento. É uma FK para a tabela departamento.';
 
-/*criar tabela trabalha_em & comentarios*/
+-->criar tabela trabalha_em & comentarios
 CREATE TABLE trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INT NOT NULL,
@@ -138,7 +141,7 @@ ALTER TABLE trabalha_em MODIFY COLUMN numero_projeto INTEGER COMMENT 'Para a tab
 
 ALTER TABLE trabalha_em MODIFY COLUMN horas DECIMAL(3, 1) COMMENT 'Horas trabalhadas pelo funcionário neste projeto.';
 
-/*criar tabela localizacoes_departamento & comentarios*/
+-->criar tabela localizacoes_departamento & comentarios
 CREATE TABLE localizacoes_departamento (
                 numero_departamento INT NOT NULL,
                 local VARCHAR(15) NOT NULL,
