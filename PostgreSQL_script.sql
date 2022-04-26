@@ -1,3 +1,5 @@
+
+
 /*
 -> SQL da Criação Usuário pelo PGADMIN 4 & DATABASE
 */
@@ -28,6 +30,7 @@ IS 'Database UVV para amazenamento das tabelas';
 \c uvv icaro;
 
 
+
 /*
 -> SQL da Criação Elmasri pelo PGADMIN
 */
@@ -37,6 +40,15 @@ CREATE SCHEMA elmasri
 
 COMMENT ON SCHEMA elmasri
     IS 'Esquema de Banco de Dados';
+
+
+/*--------------- Trocar o schema public para o Elmasri ------------------*/
+SET SEARCH_PATH TO elmasri, "icaro", public;
+
+
+
+ALTER USER icaro
+SET SEARCH_PATH TO elmasri, "icaro", public;
 
 /*
 -> Tabela departamento + Comentarios sobre tabela
@@ -66,6 +78,8 @@ CREATE UNIQUE INDEX indunico
 
 /*
 -> Tabela funcionarios + Comentarios sobre tabela
+# Constraints extras: Sexo apenas F/M 
+# Salario não pode ser negativo
 */
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
@@ -74,11 +88,14 @@ CREATE TABLE funcionario (
                 ultimo_nome VARCHAR(15) NOT NULL,
                 data_nascimento DATE,
                 endereco VARCHAR(30) NOT NULL,
-                sexo CHAR(1) NOT NULL,
-                salario NUMERIC(10,2),
+                sexo CHAR(1) NOT NULL CHECK (sexo IN ('M', 'F')),
+                salario NUMERIC(10,2) CHECK (salario >= 0),
                 cpf_supervisor CHAR(11) NOT NULL,
                 numero_departamento INTEGER NOT NULL,
+
+             
                 CONSTRAINT pk_funcionario PRIMARY KEY (cpf)
+
 );
 COMMENT ON TABLE funcionario IS 'Tabela que armazena as informações dos funcionários.';
 COMMENT ON COLUMN funcionario.cpf IS 'CPF do funcionário. Será a PK da tabela.';
@@ -95,13 +112,15 @@ COMMENT ON COLUMN funcionario.numero_departamento IS 'Número do departamento do
 
 /*
 -> Tabela dependente + Comentarios sobre tabela
+# Constraints extras: Sexo apenas F/M 
 */
 CREATE TABLE dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
-                sexo CHAR(1) NOT NULL,
+                sexo CHAR(1) NOT NULL CHECK (SEXO IN ('M', 'F')),
                 data_nascimento DATE,
                 parentesco VARCHAR(15) NOT NULL,
+
                 CONSTRAINT pk_dependente PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
 COMMENT ON TABLE dependente IS 'Tabela que armazena as informações dos dependentes dos funcionários.';
@@ -130,11 +149,13 @@ COMMENT ON COLUMN projeto.numero_departamento IS 'Número do departamento. É um
 
 /*
 -> Tabela trabalha_em + Comentarios sobre tabela
+# Constraints extras: horas trabalhadas não pode ser negativo
 */
 CREATE TABLE trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INTEGER NOT NULL,
-                horas NUMERIC(3,1) NOT NULL,
+                horas NUMERIC(3,1) NOT NULL CHECK (horas >= 0),
+
                 CONSTRAINT pk_trabalha_em PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 COMMENT ON TABLE trabalha_em IS 'Tabela para armazenar quais funcionários trabalham em quais projetos.';
@@ -214,3 +235,7 @@ REFERENCES projeto (numero_projeto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
+/*
+ ---------------- ------------------------------------ -------------------
+*/
