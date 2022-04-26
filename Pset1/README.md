@@ -7,6 +7,7 @@
 **Professor:** Abrantes Araújo Silva Filho
 
 **Monitoria:** Suellen Miranda Amorim
+
 ---
 ## Introdução
 Dentro desse PSet estão arquivos que trabalham com o processo de aprendizado para a implementação de bancos de dados dentro do PostgreSQL, MySQL, e formação do projeto lógico pelo Power Architect.
