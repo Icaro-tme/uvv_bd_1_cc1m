@@ -14,6 +14,8 @@ exit
 
 mysql -u icaro -p;
 
+-- senha 123123
+
 /*criar database*/
 CREATE DATABASE UVV;
 
