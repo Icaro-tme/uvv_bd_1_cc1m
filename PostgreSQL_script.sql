@@ -180,6 +180,15 @@ COMMENT ON COLUMN localizacoes_departamento.local IS 'Localização do departame
 /*
  ---------------- Relacionamentos de chave estrangeira entre tabelas -------------------
 */
+
+--Foreign key que faltava no projeto
+ALTER TABLE funcionario ADD CONSTRAINT departamento_funcionario_fk
+FOREIGN KEY (numero_departamento)
+REFERENCES departamento (numero_departamento)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+--A adição dessa foreign key implica que para adicionar os primeiros dados deve se desabilitar os checks de FK para a sessão pois as tabelas estão vazias, e depois ligá-las novamente
+
 ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk
 FOREIGN KEY (cpf_funcionario)
 REFERENCES funcionario (CPF)
@@ -232,11 +241,24 @@ NOT DEFERRABLE;
 
 /*------------------------------INSERSÃO DE VALORES NAS TABELAS CRIADAS-----------------------------*/
 
+/*
+# Desativar o Foreign Key check (trigger) da sessão para a inserção dos primeiros dados (não é permitido a insersão de um dado que é foreign key de uma outra tabela quando o mesmo não existe nela Ex: Departamento precisa de uma chave que existe em funcionario (CPF) mas funcionario precisa de uma chave que exite em departamento (num_departamento)) 
+*/
+
+ALTER TABLE funcionario DISABLE TRIGGER ALL;
+
+
 
 --# Insert da tabela funcionarios
 
 INSERT INTO funcionario (primeiro_nome, nome_meio, ultimo_nome, cpf, data_nascimento,endereco, sexo, salario, cpf_supervisor, numero_departamento) 	
 VALUES  ('Fernando', 'T', 'Wong', 33344555587, '1955-08-12', 'Rua da Lapa, 34, São Paulo, SP', 'M', 40.000, 88866555576,5),('João', 'B', 'Silva', 12345678966, '1965-01-09', 'Rua das Flores, 751, São Paulo, SP', 'M', 30000, 33344555587, 5),('Alice', 'J', 'Zelaya', 99988777767, '1968-01-19', 'Rua Souza Lima, 35, Curitiba, PR', 'F', 25.000, 98765432168, 4),('Jennifer', 'S', 'Souza', 98765432168, '1941-06-20', 'Av.Arthur de Lima, 54, Santo André, SP', 'F', 43.000, 88866555576, 4),('Ronaldo', 'K', 'Lima', 66688444476, '1962-09-15', 'Rua Rebouças, 65, Piracicaba, SP', 'M', 38.000, 33344555587, 5),('Joice', 'A', 'Leite', 45345345376, '1972-07-31', 'Av. Lucas Obes, 74, São Paulo, SP', 'F', 25.000, 33344555587, 5),('André', 'V', 'Pereira', 98798798733, '1969-03-29', 'Rua Timbira, 35, São Paulo, SP', 'M', 25.000, 98765432168, 4),('Jorge', 'E', 'Brito', 88866555576, '1937-11-10', 'Rua do Horto, 35, São Paulo, SP', 'M', 55.000, 88866555576, 1);
+
+--Após insersão as constraint serão reativadas e validadas  departamento_funcionario_fk
+ALTER TABLE funcionario DISABLE TRIGGER ALL;
+
+ALTER TABLE funcionario VALIDATE CONSTRAINT departamento_funcionario_fk;
+
 
 --# Insert da tabela departamento		
 INSERT INTO departamento (nome_departamento, numero_departamento, cpf_gerente, data_inicio_gerente)

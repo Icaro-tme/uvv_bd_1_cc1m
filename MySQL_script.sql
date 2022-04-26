@@ -1,29 +1,26 @@
 
 
-/*
-#Criar usuario 
-#& dar todos os privilégios para todas as operações
-*/
+/*Criar usuario e dar dotos os privilégios para todas as operações*/
 CREATE USER 'icaro'@'localhost' IDENTIFIED BY '123123';
 
 GRANT ALL PRIVILEGES ON *.* TO 'icaro'@'localhost';
 
--->Flush nos privilegios pra dar reload nos usuarios
+/*Flush nos privilegios pra dar reload nos usuarios*/
 FLUSH PRIVILEGES;
 
--->sair da sessão mysql para entrar com usuário novo criado
+/*sair da sessão mysql para entrar com usuário novo criado*/
 
 exit
 
 mysql -u icaro -p;
 
--->criar database
+/*criar database*/
 CREATE DATABASE UVV;
 
--->selecionar satabase para fazer alterações/inserir dados
+/*selecionar satabase para fazer alterações/inserir dados*/
 USE UVV;
 
--->criar tabela departamento & comentarios
+/*criar tabela departamento & comentarios*/
 CREATE TABLE departamento (
                 numero_departamento INT NOT NULL,
                 cpf_gerente CHAR(11) NOT NULL,
@@ -42,12 +39,12 @@ ALTER TABLE departamento MODIFY COLUMN nome_departamento VARCHAR(15) COMMENT 'No
 
 ALTER TABLE departamento MODIFY COLUMN data_inicio_gerente DATE COMMENT 'Data do início do gerente no departamento.';
 
--->criar Indice Unico (AK) e adicioná-lo ao departamento.nome_departamento
+/*criar Indice Unico (AK) e adicioná-lo ao departamento.nome_departamento*/
 CREATE UNIQUE INDEX indunico
  ON departamento
  ( nome_departamento );
 
--->criar tabela funcionario & comentarios
+/*criar tabela funcionario & comentarios*/
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
                 primeiro_nome VARCHAR(15) NOT NULL,
@@ -84,7 +81,7 @@ ALTER TABLE funcionario MODIFY COLUMN cpf_supervisor CHAR(11) COMMENT 'CPF do su
 
 ALTER TABLE funcionario MODIFY COLUMN numero_departamento INTEGER COMMENT 'Número do departamento do funcionário.';
 
--->criar tabela dependente & comentarios
+/*criar tabela dependente & comentarios*/
 CREATE TABLE dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
@@ -106,7 +103,7 @@ ALTER TABLE dependente MODIFY COLUMN data_nascimento DATE COMMENT 'Data de nasci
 
 ALTER TABLE dependente MODIFY COLUMN parentesco VARCHAR(15) COMMENT 'Descrição do parentesco do dependente com o funcionário.';
 
--->criar tabela projeto & comentarios
+/*criar tabela projeto & comentarios*/
 CREATE TABLE projeto (
                 numero_projeto INT NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
@@ -125,7 +122,7 @@ ALTER TABLE projeto MODIFY COLUMN local_projeto VARCHAR(15) COMMENT 'Localizaç�
 
 ALTER TABLE projeto MODIFY COLUMN numero_departamento INTEGER COMMENT 'Número do departamento. É uma FK para a tabela departamento.';
 
--->criar tabela trabalha_em & comentarios
+/*criar tabela trabalha_em & comentarios*/
 CREATE TABLE trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INT NOT NULL,
@@ -141,7 +138,7 @@ ALTER TABLE trabalha_em MODIFY COLUMN numero_projeto INTEGER COMMENT 'Para a tab
 
 ALTER TABLE trabalha_em MODIFY COLUMN horas DECIMAL(3, 1) COMMENT 'Horas trabalhadas pelo funcionário neste projeto.';
 
--->criar tabela localizacoes_departamento & comentarios
+/*criar tabela localizacoes_departamento & comentarios*/
 CREATE TABLE localizacoes_departamento (
                 numero_departamento INT NOT NULL,
                 local VARCHAR(15) NOT NULL,
@@ -154,7 +151,16 @@ ALTER TABLE localizacoes_departamento MODIFY COLUMN numero_departamento INTEGER 
 
 ALTER TABLE localizacoes_departamento MODIFY COLUMN local VARCHAR(15) COMMENT 'Localização do departamento. Faz parte da PK desta tabela.';
 
-/*----- Adicionando Constraints/Criando relções entre tabelas com foreign keys ----- */
+/*----- Adicionando Constraints/Criando relações entre tabelas com foreign keys ----- */
+
+--Foreign key que faltava no projeto
+ALTER TABLE funcionario ADD CONSTRAINT departamento_funcionario_fk
+FOREIGN KEY (numero_departamento)
+REFERENCES departamento (numero_departamento)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+--A adição dessa foreign key implica que para adicionar os primeiros dados deve se desabilitar os checks de FK para a sessão pois as tabelas estão vazias, e depois ligá-las novamente
+
 
 ALTER TABLE localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento_fk
 FOREIGN KEY (numero_departamento)
@@ -199,6 +205,11 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
 /*----------------INSERTS DE DADOS--------------------*/
+/*
+# Desativar o Foreign Key check da sessão para a inserção dos primeiros dados (não é permitido a insersão de um dado que é foreign key de uma outra tabela quando o mesmo não existe nela Ex: Departamento precisa de uma chave que existe em funcionario (CPF) mas funcionario precisa de uma chave que exite em departamento (num_departamento)) 
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
 
 --# Insert da tabela funcionarios
 --# Jorge precisa ser inserido primeiro pois o CPF dele é uma foreign key de outros funcionarios
@@ -211,6 +222,10 @@ VALUES('Jorge', 'E', 'Brito', '88866555576', '1937-11-10','Rua do Horto, 35, Sã
 ('João', 'B', 'Silva', '12345678966', '1965-01-09','Rua das Flores, 751, São Paulo, SP', 'M', '30000', '33344555587', 5 ),
 ('Ronaldo', 'K', 'Lima', '66688444476', '1962-09-15','Rua Rebouças, 65, Piracicaba, SP', 'M', '38000', '33344555587', 5 ),
 ('Joice', 'A', 'Leite', '45345345376', '1972-07-31','Av. Lucas Obes, 74, São Paulo, SP', 'F', '25000', '33344555587', 5 );
+
+--Ativar o Foreign Key check da sessão após a inserção dos primeiros dados 
+SET FOREIGN_KEY_CHECKS=1;
+
 
 --# Insert da tabela departamento		
 INSERT INTO departamento (nome_departamento, numero_departamento, cpf_gerente, data_inicio_gerente)
@@ -265,7 +280,6 @@ values (12345678966, 1, 32.5),
 (88866555576, 20, 0);
 
 -->Fim dos inserts
-
 
 
 
