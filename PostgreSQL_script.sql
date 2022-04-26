@@ -29,7 +29,7 @@ IS 'Database UVV para amazenamento das tabelas';
 
 \c uvv icaro;
 
-
+--> senha 123123
 
 
 --> SQL da Criação Elmasri pelo PGADMIN
