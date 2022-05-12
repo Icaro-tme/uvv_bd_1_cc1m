@@ -17,11 +17,7 @@ Tabela resultante:
 |                   5 |       33250.00 |
 +---------------------+----------------+
 ```
-
-
-
-
-
+---
 ### QUESTÃO 02: 
 Prepare um relatório que mostre a média salarial dos homens e das mulheres.
 
@@ -39,18 +35,50 @@ GROUP BY sexo;
 ```
 
 ```SQL
-+--------+----------------+
-| sexo   | media_salarial |
-+--------+----------------+
-| FEMALE |       31000.00 |
-| MALE   |       37600.00 |
-+--------+----------------+
++-----------+----------------+
+| sexo      | media_salarial |
++-----------+----------------+
+| FEMININO  |       31000.00 |
+| MASCULINO |       37600.00 |
++-----------+----------------+
 ```
 
-
+--
 ### QUESTÃO 03: 
 Prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: nome completo, a data de nascimento, a idade em anos completos e o salário.
 
+```SQL
+SELECT departamento.nome_departamento, concat(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, 
+funcionario.data_nascimento,  year(curdate()) - YEAR(data_nascimento) AS idade, 
+funcionario.salario AS salario 
+
+FROM departamento
+
+INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento
+
+ORDER BY departamento.nome_departamento ASC; /*Ordem de departamento ASCENDENTE*/;
+```
+
+Tabela resultante:
+<sub><sup>Ordenado para legibilidade</sup></sub>:
+
+```SQL
++-------------------+------------------+-----------------+-------+----------+
+| nome_departamento | nome             | data_nascimento | idade | salario  |
++-------------------+------------------+-----------------+-------+----------+
+| Administração     | Alice J.Zelaya   | 1968-01-19      |    54 | 25000.00 |
+| Administração     | Jennifer S.Souza | 1941-06-20      |    81 | 43000.00 |
+| Administração     | André V.Pereira  | 1969-03-29      |    53 | 25000.00 |
+| Matriz            | Jorge E.Brito    | 1937-11-10      |    85 | 55000.00 |
+| Pesquisa          | Ronaldo K.Lima   | 1962-09-15      |    60 | 38000.00 |
+| Pesquisa          | João B.Silva     | 1965-01-09      |    57 | 30000.00 |
+| Pesquisa          | Fernando T.Wong  | 1955-12-08      |    67 | 40000.00 |
+| Pesquisa          | Joice A.Leite    | 1972-07-31      |    50 | 25000.00 |
++-------------------+------------------+-----------------+-------+----------+
+```
+---
+### QUESTÃO 04:
+Prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%. 
 ```SQL
 SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, 
 funcionario.data_nascimento, YEAR(CURDATE()) - YEAR(data_nascimento) AS idade, TRUNCATE(salario,2) AS salario_atual, TRUNCATE(salario,2)*1.2 AS salario_reajustado
@@ -64,9 +92,11 @@ FROM funcionario
 WHERE salario >= 35000 /*Salarios igual ou maiores que 35 mil recebem 15% reajuste*/
 
 ORDER BY salario_reajustado ASC; /*Ordem de salario reajustado ASCENDENTE*/
-
 ```
-Tabela resultante:
+
+Tabela resultante 
+<sub><sup>Ordenado para legibilidade</sup></sub>:
+
 ```SQL
 +------------------+-----------------+-------+---------------+--------------------+
 | nome             | data_nascimento | idade | salario_atual | salario_reajustado |
@@ -81,21 +111,25 @@ Tabela resultante:
 | Jorge E.Brito    | 1937-11-10      |    85 |      55000.00 |         63250.0000 |
 +------------------+-----------------+-------+---------------+--------------------+
 ```
-
-### QUESTÃO 04:
-Prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%. 
-```SQL
-
-```
-Tabela resultante:
-```SQL
-
-```
-
+---
 ### QUESTÃO 05: 
 Prepare um relatório que liste, para cada departamento, o nome do gerente e o nome dos funcionários. Ordene esse relatório por nome do departamento (em ordem crescente) e por salário dos funcionários (em ordem decrescente). 
-```SQL
 
+
+```SQL
+SELECT departamento.nome_departamento, 
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS gerente,
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS funcionarios, /*Junta os nomes*/
+funcionario.salario AS salario
+
+FROM funcionario INNER JOIN departamento, 
+(SELECT cpf, primeiro_nome FROM funcionario INNER JOIN departamento WHERE funcionario.cpf = departamento.cpf_gerente) AS ger
+WHERE d.numero_departamento = f.numero_departamento AND d.cpf_gerente = ger.cpf
+
+FROM departamento
+INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento
+
+ORDER BY nome_departamento ASC, salario DESC; /*Ordem por departamento e salário de funcionários*/
 ```
 Tabela resultante:
 ```SQL
