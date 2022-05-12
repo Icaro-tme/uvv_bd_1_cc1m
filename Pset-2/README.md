@@ -3,7 +3,7 @@
 ```SQL
 --Prepare um relatório que mostre a média salarial dos funcionários de cada departamento. 
 
-SELECT numero_departamento, ROUND(AVG(salario),2) AS media_salarial /*ROUND(AVG) faz com que o salario mostre apenas 2 decimais*/
+SELECT numero_departamento, TRUNCATE(AVG(salario),2) AS media_salarial /*TRUNCATE() faz com que o salario mostre apenas 2 decimais*/
 FROM funcionario 
 GROUP BY numero_departamento;
 ```
@@ -31,7 +31,7 @@ SELECT
 WHEN sexo = 'F' THEN 'FEMININO'
 END) sexo,  /* CASE(Condicionais) troca a apresentação dos valores selecionados nas instâncias procuradas Ex: M -> Masculino*/
 
-ROUND(AVG(salario),2) AS media_salarial /*ROUND(AVG) faz com que o salario mostre apenas 2 decimais*/
+ROUND(AVG(salario),2) AS media_salarial /*TRUNCATE(AVG) faz com que o salario mostre apenas 2 decimais*/
 FROM funcionario 
 GROUP BY sexo;
 ```
@@ -48,7 +48,21 @@ GROUP BY sexo;
 
 ### QUESTÃO 03: 
 ```SQL
---Prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.
+--Prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: 
+--o nome completo, a data de nascimento, a idade em anos completos e o salário.
+
+SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, 
+funcionario.data_nascimento, YEAR(CURDATE()) - YEAR(data_nascimento) AS idade, TRUNCATE(salario,2) AS salario_atual, TRUNCATE(salario,2)*1.2 AS salario_reajustado
+FROM funcionario
+WHERE salario < 35000 /*Salarios menores que 35 mil recebem 20% reajuste*/
+
+UNION
+
+SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, funcionario.data_nascimento, YEAR(curdate()) - YEAR(data_nascimento) AS idade, TRUNCATE(salario,2) AS salario_atual, TRUNCATE(salario,2)*1.15 AS salario_reajustado 
+FROM funcionario
+WHERE salario >= 35000 /*Salarios igual ou maiores que 35 mil recebem 15% reajuste*/
+
+ORDER BY salario_reajustado ASC; /*Ordem de salario reajustado ASCENDENTE*/
 
 ```
 Tabela resultante:
