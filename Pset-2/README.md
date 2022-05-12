@@ -209,12 +209,45 @@ Tabela resultante:
 ### QUESTÃO 08: 
 Prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
 ```SQL
+SELECT 
+departamento.nome_departamento AS 'Departamento', 
+projeto.nome_projeto 'Nome do projeto',
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) "Nome do funcionário", 
+TRUNCATE(trabalha_em.horas,1) 'Horas trabalhadas'
 
+FROM funcionario
+
+INNER JOIN departamento 
+INNER JOIN projeto
+INNER JOIN trabalha_em
+WHERE (funcionario.cpf = trabalha_em.cpf_funcionario) 
+AND (projeto.numero_projeto = trabalha_em.numero_projeto )
+AND (funcionario.numero_departamento = departamento.numero_departamento )
+
+ORDER BY projeto.numero_projeto ASC;
 ```
 Tabela resultante:
-```SQL
 
-```
+| Departamento    | Nome do projeto  | Nome do funcionário  | Horas trabalhadas |
+|-----------------|------------------|----------------------|-------------------|
+| Pesquisa        | ProdutoX         | João B Silva         |              32.5 |
+| Pesquisa        | ProdutoX         | Joice A Leite        |              20.0 |
+| Pesquisa        | ProdutoY         | João B Silva         |               7.5 |
+| Pesquisa        | ProdutoY         | Fernando T Wong      |              10.0 |
+| Pesquisa        | ProdutoY         | Joice A Leite        |              10.0 |
+| Pesquisa        | ProdutoZ         | Fernando T Wong      |              10.0 |
+| Pesquisa        | ProdutoZ         | Ronaldo K Lima       |              40.0 |
+| Pesquisa        | Informatização   | Fernando T Wong      |              10.0 |
+| Administração   | Informatização   | André V Pereira      |              35.0 |
+| Administração   | Informatização   | Alice J Zelaya       |              10.0 |
+| Pesquisa        | Reogarnização    | Fernando T Wong      |              10.0 |
+| Matriz          | Reogarnização    | Jorge E Brito        |               0.0 |
+| Administração   | Reogarnização    | Jennifer S Souza     |              15.0 |
+| Administração   | Novosbenefícios  | Jennifer S Souza     |              20.0 |
+| Administração   | Novosbenefícios  | André V Pereira      |               5.0 |
+| Administração   | Novosbenefícios  | Alice J Zelaya       |              30.0 |
+|-----------------|------------------|----------------------|-------------------|
+
 
 ### QUESTÃO 09: 
 Prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
