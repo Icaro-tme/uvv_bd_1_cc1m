@@ -438,9 +438,42 @@ Tabela resultante:
 ### QUESTÃO 15: 
 Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
 ```SQL
+SELECT 
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) "Nome Completo",
+departamento.nome_departamento 'Nome do Departamento', 
+projeto.nome_projeto 'Projeto designado'
 
+FROM funcionario
+
+INNER JOIN departamento
+INNER JOIN trabalha_em 
+INNER JOIN projeto
+
+WHERE departamento.numero_departamento = funcionario.numero_departamento 
+AND projeto.numero_projeto = trabalha_em.numero_projeto 
+AND trabalha_em.cpf_funcionario = funcionario.cpf
+
+ORDER BY `Nome Completo` ASC;
 ```
 Tabela resultante:
-```SQL
 
-```
+| Nome Completo    | Nome do Departamento | Projeto designado |
+|------------------|----------------------|-------------------|
+| Alice J Zelaya   | Administração        | Novosbenefícios   |
+| Alice J Zelaya   | Administração        | Informatização    |
+| André V Pereira  | Administração        | Novosbenefícios   |
+| André V Pereira  | Administração        | Informatização    |
+| Fernando T Wong  | Pesquisa             | Reogarnização     |
+| Fernando T Wong  | Pesquisa             | ProdutoY          |
+| Fernando T Wong  | Pesquisa             | Informatização    |
+| Fernando T Wong  | Pesquisa             | ProdutoZ          |
+| Jennifer S Souza | Administração        | Reogarnização     |
+| Jennifer S Souza | Administração        | Novosbenefícios   |
+| João B Silva     | Pesquisa             | ProdutoX          |
+| João B Silva     | Pesquisa             | ProdutoY          |
+| Joice A Leite    | Pesquisa             | ProdutoY          |
+| Joice A Leite    | Pesquisa             | ProdutoX          |
+| Jorge E Brito    | Matriz               | Reogarnização     |
+| Ronaldo K Lima   | Pesquisa             | ProdutoZ          |
+|------------------|----------------------|-------------------|
+
