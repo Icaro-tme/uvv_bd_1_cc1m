@@ -48,9 +48,9 @@ GROUP BY sexo;
 Prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: nome completo, a data de nascimento, a idade em anos completos e o salário.
 
 ```SQL
-SELECT departamento.nome_departamento, concat(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, 
+SELECT departamento.nome_departamento, CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome_funcionario, 
 funcionario.data_nascimento,  year(curdate()) - YEAR(data_nascimento) AS idade, 
-funcionario.salario AS salario 
+funcionario.salario AS Salario 
 
 FROM departamento
 
@@ -64,7 +64,7 @@ Tabela resultante:
 
 ```SQL
 +-------------------+------------------+-----------------+-------+----------+
-| nome_departamento | nome             | data_nascimento | idade | salario  |
+| nome_departamento | nome_funcionario | data_nascimento | Idade | Salario  |
 +-------------------+------------------+-----------------+-------+----------+
 | Administração     | Alice J.Zelaya   | 1968-01-19      |    54 | 25000.00 |
 | Administração     | Jennifer S.Souza | 1941-06-20      |    81 | 43000.00 |
@@ -117,33 +117,67 @@ Prepare um relatório que liste, para cada departamento, o nome do gerente e o n
 
 
 ```SQL
-SELECT departamento.nome_departamento, 
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS gerente,
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS funcionarios, /*Junta os nomes*/
-funcionario.salario AS salario
-
-FROM funcionario INNER JOIN departamento, 
-(SELECT cpf, primeiro_nome FROM funcionario INNER JOIN departamento WHERE funcionario.cpf = departamento.cpf_gerente) AS ger
-WHERE d.numero_departamento = f.numero_departamento AND d.cpf_gerente = ger.cpf
+SELECT departamento.nome_departamento as  'Departamento', 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome Funcionário', 
+funcionario.salario AS 'Salário',
+CONCAT(func_gerente.primeiro_nome," ", func_gerente.nome_meio,".", func_gerente.ultimo_nome) AS 'Nome Gerente'
 
 FROM departamento
-INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento
 
-ORDER BY nome_departamento ASC, salario DESC; /*Ordem por departamento e salário de funcionários*/
+LEFT JOIN funcionario 
+ON departamento.numero_departamento = funcionario.numero_departamento 
+/*Ver a tabela funcionario, sem alias, pra juntar de acordo com departamento*/
+
+LEFT JOIN funcionario AS func_gerente 
+ON departamento.cpf_gerente = func_gerente.cpf 
+/*Ver a tabela funcionario, com o alias de gerente, pra juntar de acordo com o CPF, identificando quem é gerente*/
+
+ORDER BY nome_departamento ASC, funcionario.salario DESC;
 ```
 Tabela resultante:
 ```SQL
-
++-----------------+-------------------+----------+------------------+
+| Departamento    | Nome Funcionário  | Salário  | Nome Gerente     |
++-----------------+-------------------+----------+------------------+
+| Administração   | Jennifer S.Souza  | 43000.00 | Jennifer S.Souza |
+| Administração   | André V.Pereira   | 25000.00 | Jennifer S.Souza |
+| Administração   | Alice J.Zelaya    | 25000.00 | Jennifer S.Souza |
+| Matriz          | Jorge E.Brito     | 55000.00 | Jorge E.Brito    |
+| Pesquisa        | Fernando T.Wong   | 40000.00 | Fernando T.Wong  |
+| Pesquisa        | Ronaldo K.Lima    | 38000.00 | Fernando T.Wong  |
+| Pesquisa        | João B.Silva      | 30000.00 | Fernando T.Wong  |
+| Pesquisa        | Joice A.Leite     | 25000.00 | Fernando T.Wong  |
++-----------------+-------------------+----------+------------------+
 ```
 
 ### QUESTÃO 06: QUESTÃO 06: 
 Prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
 ```SQL
-
+SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
+departamento.nome_departamento AS 'Departamento onde Trabalham',
+CONCAT(dependente.nome_dependente," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome do Dependente',
+YEAR(curdate()) - YEAR(dependente.data_nascimento) AS 'Idade do dependente',
+(CASE dependente.sexo
+WHEN 'M' THEN 'Masculino'
+WHEN 'F' THEN 'Feminino'
+END) AS 'Sexo do dependente'
+FROM funcionario
+INNER JOIN dependente ON dependente.cpf_funcionario=funcionario.cpf
+INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero_departamento;
 ```
 Tabela resultante:
 ```SQL
-
++----------------------------+-----------------------------+--------------------+---------------------+--------------------+
+| Funcionario com dependente | Departamento onde Trabalham | Nome do Dependente | Idade do dependente | Sexo do dependente |
++----------------------------+-----------------------------+--------------------+---------------------+--------------------+
+| João B.Silva               | Pesquisa                    | Alicia B.Silva     |                  34 | Feminino           |
+| João B.Silva               | Pesquisa                    | Elizabeth B.Silva  |                  55 | Feminino           |
+| João B.Silva               | Pesquisa                    | Michael B.Silva    |                  34 | Masculino          |
+| Fernando T.Wong            | Pesquisa                    | Alicia T.Wong      |                  36 | Feminino           |
+| Fernando T.Wong            | Pesquisa                    | Janaína T.Wong     |                  64 | Feminino           |
+| Fernando T.Wong            | Pesquisa                    | Tiago T.Wong       |                  39 | Masculino          |
+| Jennifer S.Souza           | Administração               | Antonio S.Souza    |                  80 | Masculino          |
++----------------------------+-----------------------------+--------------------+---------------------+--------------------+
 ```
 
 ### QUESTÃO 07: 
