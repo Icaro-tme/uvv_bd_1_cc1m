@@ -1,6 +1,6 @@
 
 ## QUESTÃO 01: 
-Prepare um relatório que mostre a média salarial dos funcionários de cada departamento. 
+Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
 
 ```SQL
 SELECT 
@@ -14,10 +14,8 @@ GROUP BY departamento.numero_departamento
 ORDER BY `Média Salarial` ASC;
 ```
 ### Tabela 01: 
-<details>
- 
-  
-  * Ordenado por média salarial ascendente 
+
+  * Ordenado por média salarial ascendente para melhor legibilidade
   
 | Nome do Departamento | Média Salarial  |
 |----------------------|-----------------|
@@ -25,10 +23,11 @@ ORDER BY `Média Salarial` ASC;
 | Pesquisa             |        33250.00 |
 | Matriz               |        55000.00 |
 |----------------------|-----------------|
-</details>
+
+---
 
 ## QUESTÃO 02: 
-Prepare um relatório que mostre a média salarial dos homens e das mulheres.
+>Prepare um relatório que mostre a **média salarial** dos **homens e das mulheres**.
 
 ```SQL
 SELECT 
@@ -41,86 +40,94 @@ FROM funcionario
 GROUP BY Sexo;
 ```
 ### Tabela 02: 
-<details>
+
 
 | Sexo      | Média salarial  |
 |-----------|-----------------|
 | FEMININO  |        31000.00 |
 | MASCULINO |        37600.00 |
 |-----------|-----------------|
-</details>
 
---
+
+---
+
 ## QUESTÃO 03: 
-Prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: nome completo, a data de nascimento, a idade em anos completos e o salário.
+>Prepare um relatório que liste o **nome dos departamentos** e, para cada departamento, inclua as seguintes informações de seus funcionários: **nome completo**, a **data de nascimento**, a **idade** em anos completos e o **salário**.
 
 ```SQL
-SELECT departamento.nome_departamento, CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome_funcionario, 
-funcionario.data_nascimento,  year(curdate()) - YEAR(data_nascimento) AS idade, 
-funcionario.salario AS Salario 
+SELECT 
+departamento.nome_departamento AS 'Nome Departamento', 
+funcionario.data_nascimento AS 'Data de Nascimento',
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome do Funcionário', 
+TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade', 
+funcionario.salario AS 'Salario'
 
 FROM departamento
 
 INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_departamento
 
-ORDER BY departamento.nome_departamento ASC; /*Ordem de departamento ASCENDENTE*/;
+ORDER BY `Nome Departamento` ASC; /*Ordem de departamento ASCENDENTE*/;
 ```
 
-Tabela resultante:
-<sub><sup>Ordenado para legibilidade</sup></sub>:
+## Tabela 03:
+* Ordenado por departamento para melhor legibilidade
 
-```SQL
-+-------------------+------------------+-----------------+-------+----------+
-| nome_departamento | nome_funcionario | data_nascimento | Idade | Salario  |
-+-------------------+------------------+-----------------+-------+----------+
-| Administração     | Alice J.Zelaya   | 1968-01-19      |    54 | 25000.00 |
-| Administração     | Jennifer S.Souza | 1941-06-20      |    81 | 43000.00 |
-| Administração     | André V.Pereira  | 1969-03-29      |    53 | 25000.00 |
-| Matriz            | Jorge E.Brito    | 1937-11-10      |    85 | 55000.00 |
-| Pesquisa          | Ronaldo K.Lima   | 1962-09-15      |    60 | 38000.00 |
-| Pesquisa          | João B.Silva     | 1965-01-09      |    57 | 30000.00 |
-| Pesquisa          | Fernando T.Wong  | 1955-12-08      |    67 | 40000.00 |
-| Pesquisa          | Joice A.Leite    | 1972-07-31      |    50 | 25000.00 |
-+-------------------+------------------+-----------------+-------+----------+
-```
+| Nome Departamento | Data de Nascimento | Nome do Funcionário  | Idade | Salario  |
+|-------------------|--------------------|----------------------|-------|----------|
+| Administração     | 1968-01-19         | Alice J.Zelaya       |    54 | 25000.00 |
+| Administração     | 1941-06-20         | Jennifer S.Souza     |    80 | 43000.00 |
+| Administração     | 1969-03-29         | André V.Pereira      |    53 | 25000.00 |
+| Matriz            | 1937-11-10         | Jorge E.Brito        |    84 | 55000.00 |
+| Pesquisa          | 1962-09-15         | Ronaldo K.Lima       |    59 | 38000.00 |
+| Pesquisa          | 1965-01-09         | João B.Silva         |    57 | 30000.00 |
+| Pesquisa          | 1955-12-08         | Fernando T.Wong      |    66 | 40000.00 |
+| Pesquisa          | 1972-07-31         | Joice A.Leite        |    49 | 25000.00 |
+|-------------------|--------------------|----------------------|-------|----------|
+
 ---
 ## QUESTÃO 04:
-Prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%. 
+>Prepare um relatório que mostre o **nome completo dos funcionários**, a **idade em anos** completos, o **salário atual** e o **salário com um reajuste** que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
+
 ```SQL
-SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, 
-funcionario.data_nascimento, YEAR(CURDATE()) - YEAR(data_nascimento) AS idade, TRUNCATE(salario,2) AS salario_atual, TRUNCATE(salario,2)*1.2 AS salario_reajustado
+SELECT 
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome Completo', 
+TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade',
+TRUNCATE(salario,2) AS 'Salario', 
+TRUNCATE(salario,2)*1.2 AS 'Salario Reajustado'
+
 FROM funcionario
 WHERE salario < 35000 /*Salarios menores que 35 mil recebem 20% reajuste*/
 
 UNION
 
-SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS nome, funcionario.data_nascimento, YEAR(curdate()) - YEAR(data_nascimento) AS idade, TRUNCATE(salario,2) AS salario_atual, TRUNCATE(salario,2)*1.15 AS salario_reajustado 
+SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome Completo',
+TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade',
+TRUNCATE(salario,2) AS 'Salario', 
+TRUNCATE(salario,2)*1.15 AS'Salario Reajustado' 
+
 FROM funcionario
 WHERE salario >= 35000 /*Salarios igual ou maiores que 35 mil recebem 15% reajuste*/
 
-ORDER BY salario_reajustado ASC; /*Ordem de salario reajustado ASCENDENTE*/
+ORDER BY `Salario Reajustado` ASC; /*Ordem de salario reajustado ASCENDENTE*/
 ```
 
-Tabela resultante 
-<sub><sup>Ordenado para legibilidade</sup></sub>:
+## Tabela 04: 
+* Ordenado em Salário para melhor legibilidade
 
-```SQL
-+------------------+-----------------+-------+---------------+--------------------+
-| nome             | data_nascimento | idade | salario_atual | salario_reajustado |
-+------------------+-----------------+-------+---------------+--------------------+
-| Joice A.Leite    | 1972-07-31      |    50 |      25000.00 |         30000.0000 |
-| André V.Pereira  | 1969-03-29      |    53 |      25000.00 |         30000.0000 |
-| Alice J.Zelaya   | 1968-01-19      |    54 |      25000.00 |         30000.0000 |
-| João B.Silva     | 1965-01-09      |    57 |      30000.00 |         36000.0000 |
-| Ronaldo K.Lima   | 1962-09-15      |    60 |      38000.00 |         43700.0000 |
-| Fernando T.Wong  | 1955-12-08      |    67 |      40000.00 |         46000.0000 |
-| Jennifer S.Souza | 1941-06-20      |    81 |      43000.00 |         49450.0000 |
-| Jorge E.Brito    | 1937-11-10      |    85 |      55000.00 |         63250.0000 |
-+------------------+-----------------+-------+---------------+--------------------+
-```
+| Nome do Funcionário  | Idade | Salário  | Salário Reajustado  |
+|----------------------|-------|----------|---------------------|
+| Joice A.Leite        |    49 | 25000.00 |          30000.0000 |
+| André V.Pereira      |    53 | 25000.00 |          30000.0000 |
+| Alice J.Zelaya       |    54 | 25000.00 |          30000.0000 |
+| João B.Silva         |    57 | 30000.00 |          36000.0000 |
+| Ronaldo K.Lima       |    59 | 38000.00 |          43700.0000 |
+| Fernando T.Wong      |    66 | 40000.00 |          46000.0000 |
+| Jennifer S.Souza     |    80 | 43000.00 |          49450.0000 |
+| Jorge E.Brito        |    84 | 55000.00 |          63250.0000 |
+
 ---
 ## QUESTÃO 05: 
-Prepare um relatório que liste, para cada departamento, o nome do gerente e o nome dos funcionários. Ordene esse relatório por nome do departamento (em ordem crescente) e por salário dos funcionários (em ordem decrescente). 
+>Prepare um relatório que liste, para cada **departamento**, o **nome do gerente** e o **nome dos funcionários**. Ordene esse relatório por **nome do departamento** (em ordem crescente) e por **salário dos funcionários** (em ordem decrescente). 
 
 
 ```SQL
@@ -141,54 +148,54 @@ ON departamento.cpf_gerente = func_gerente.cpf
 
 ORDER BY nome_departamento ASC, funcionario.salario DESC;
 ```
-Tabela resultante:
-```SQL
-+-----------------+-------------------+----------+------------------+
-| Departamento    | Nome Funcionário  | Salário  | Nome Gerente     |
-+-----------------+-------------------+----------+------------------+
-| Administração   | Jennifer S.Souza  | 43000.00 | Jennifer S.Souza |
-| Administração   | André V.Pereira   | 25000.00 | Jennifer S.Souza |
-| Administração   | Alice J.Zelaya    | 25000.00 | Jennifer S.Souza |
-| Matriz          | Jorge E.Brito     | 55000.00 | Jorge E.Brito    |
-| Pesquisa        | Fernando T.Wong   | 40000.00 | Fernando T.Wong  |
-| Pesquisa        | Ronaldo K.Lima    | 38000.00 | Fernando T.Wong  |
-| Pesquisa        | João B.Silva      | 30000.00 | Fernando T.Wong  |
-| Pesquisa        | Joice A.Leite     | 25000.00 | Fernando T.Wong  |
-+-----------------+-------------------+----------+------------------+
-```
+### Tabela 05:
+
+| Departamento    | Nome do Funcionário  | Salário  | Nome do Gerente  |
+|-----------------|----------------------|----------|------------------|
+| Administração   | Jennifer S.Souza     | 43000.00 | Jennifer S.Souza |
+| Administração   | Alice J.Zelaya       | 25000.00 | Jennifer S.Souza |
+| Administração   | André V.Pereira      | 25000.00 | Jennifer S.Souza |
+| Matriz          | Jorge E.Brito        | 55000.00 | Jorge E.Brito    |
+| Pesquisa        | Fernando T.Wong      | 40000.00 | Fernando T.Wong  |
+| Pesquisa        | Ronaldo K.Lima       | 38000.00 | Fernando T.Wong  |
+| Pesquisa        | João B.Silva         | 30000.00 | Fernando T.Wong  |
+| Pesquisa        | Joice A.Leite        | 25000.00 | Fernando T.Wong  |
+
+---
 
 ## QUESTÃO 06: 
-Prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
+>Prepare um relatório que mostre o **nome completo** dos funcionários **que têm dependentes**, o **departamento** onde eles trabalham e, para cada funcionário, também liste o **nome completo dos dependentes**, a **idade** em anos de cada dependente e o **sexo** (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
 ```SQL
-SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
+SELECT 
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
 departamento.nome_departamento AS 'Departamento onde Trabalham',
 CONCAT(dependente.nome_dependente," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome do Dependente',
-YEAR(curdate()) - YEAR(dependente.data_nascimento) AS 'Idade do dependente',
+TIMESTAMPDIFF(YEAR, dependente.data_nascimento, CURDATE()) AS 'Idade do dependente',
 (CASE dependente.sexo
 WHEN 'M' THEN 'Masculino'
 WHEN 'F' THEN 'Feminino'
 END) AS 'Sexo do dependente'
+
 FROM funcionario
+
 INNER JOIN dependente ON dependente.cpf_funcionario=funcionario.cpf
 INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero_departamento;
 ```
-Tabela resultante:
-```SQL
-+----------------------------+-----------------------------+--------------------+---------------------+--------------------+
+### Tabela 06:
+
 | Funcionario com dependente | Departamento onde Trabalham | Nome do Dependente | Idade do dependente | Sexo do dependente |
-+----------------------------+-----------------------------+--------------------+---------------------+--------------------+
-| João B.Silva               | Pesquisa                    | Alicia B.Silva     |                  34 | Feminino           |
+|----------------------------|-----------------------------|--------------------|---------------------|--------------------|
+| João B.Silva               | Pesquisa                    | Alicia B.Silva     |                  33 | Feminino           |
 | João B.Silva               | Pesquisa                    | Elizabeth B.Silva  |                  55 | Feminino           |
 | João B.Silva               | Pesquisa                    | Michael B.Silva    |                  34 | Masculino          |
 | Fernando T.Wong            | Pesquisa                    | Alicia T.Wong      |                  36 | Feminino           |
 | Fernando T.Wong            | Pesquisa                    | Janaína T.Wong     |                  64 | Feminino           |
-| Fernando T.Wong            | Pesquisa                    | Tiago T.Wong       |                  39 | Masculino          |
+| Fernando T.Wong            | Pesquisa                    | Tiago T.Wong       |                  38 | Masculino          |
 | Jennifer S.Souza           | Administração               | Antonio S.Souza    |                  80 | Masculino          |
-+----------------------------+-----------------------------+--------------------+---------------------+--------------------+
-```
+
 
 ## QUESTÃO 07: 
-Prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
+>Prepare um relatório que mostre, para cada **funcionário** que **NÃO TEM dependente**, seu **nome completo**, **departamento** e **salário**.
 ```SQL
 SELECT 
 CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario sem dependente',
