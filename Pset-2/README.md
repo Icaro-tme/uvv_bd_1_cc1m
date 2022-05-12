@@ -1,6 +1,6 @@
 
 ## QUESTÃO 01: 
-Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
+>Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
 
 ```SQL
 SELECT 
@@ -22,7 +22,7 @@ ORDER BY `Média Salarial` ASC;
 | Administração        |        31000.00 |
 | Pesquisa             |        33250.00 |
 | Matriz               |        55000.00 |
-|----------------------|-----------------|
+
 
 ---
 
@@ -46,7 +46,7 @@ GROUP BY Sexo;
 |-----------|-----------------|
 | FEMININO  |        31000.00 |
 | MASCULINO |        37600.00 |
-|-----------|-----------------|
+
 
 
 ---
@@ -82,7 +82,7 @@ ORDER BY `Nome Departamento` ASC; /*Ordem de departamento ASCENDENTE*/;
 | Pesquisa          | 1965-01-09         | João B.Silva         |    57 | 30000.00 |
 | Pesquisa          | 1955-12-08         | Fernando T.Wong      |    66 | 40000.00 |
 | Pesquisa          | 1972-07-31         | Joice A.Leite        |    49 | 25000.00 |
-|-------------------|--------------------|----------------------|-------|----------|
+
 
 ---
 ## QUESTÃO 04:
