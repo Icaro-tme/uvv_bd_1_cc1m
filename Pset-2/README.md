@@ -1,6 +1,6 @@
 
 ## QUESTÃO 01: 
->Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
+Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
 
 ```SQL
 SELECT 
@@ -15,7 +15,7 @@ ORDER BY `Média Salarial` ASC;
 ```
 ### Tabela 01: 
 
-  * Ordenado por média salarial ascendente para melhor legibilidade
+  * Ordenado por média salarial para melhor legibilidade
   
 | Nome do Departamento | Média Salarial  |
 |----------------------|-----------------|
@@ -27,7 +27,7 @@ ORDER BY `Média Salarial` ASC;
 ---
 
 ## QUESTÃO 02: 
->Prepare um relatório que mostre a **média salarial** dos **homens e das mulheres**.
+Prepare um relatório que mostre a **média salarial** dos **homens e das mulheres**.
 
 ```SQL
 SELECT 
@@ -52,7 +52,7 @@ GROUP BY Sexo;
 ---
 
 ## QUESTÃO 03: 
->Prepare um relatório que liste o **nome dos departamentos** e, para cada departamento, inclua as seguintes informações de seus funcionários: **nome completo**, a **data de nascimento**, a **idade** em anos completos e o **salário**.
+Prepare um relatório que liste o **nome dos departamentos** e, para cada departamento, inclua as seguintes informações de seus funcionários: **nome completo**, a **data de nascimento**, a **idade** em anos completos e o **salário**.
 
 ```SQL
 SELECT 
@@ -86,7 +86,7 @@ ORDER BY `Nome Departamento` ASC; /*Ordem de departamento ASCENDENTE*/;
 
 ---
 ## QUESTÃO 04:
->Prepare um relatório que mostre o **nome completo dos funcionários**, a **idade em anos** completos, o **salário atual** e o **salário com um reajuste** que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
+Prepare um relatório que mostre o **nome completo dos funcionários**, a **idade em anos** completos, o **salário atual** e o **salário com um reajuste** que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a 35.000 o reajuste deve ser de 15%.
 
 ```SQL
 SELECT 
@@ -112,7 +112,7 @@ ORDER BY `Salario Reajustado` ASC; /*Ordem de salario reajustado ASCENDENTE*/
 ```
 
 ### Tabela 04: 
-* Ordenado em Salário para melhor legibilidade
+* Ordenado por Salário para melhor legibilidade
 
 | Nome do Funcionário  | Idade | Salário  | Salário Reajustado  |
 |----------------------|-------|----------|---------------------|
@@ -127,7 +127,7 @@ ORDER BY `Salario Reajustado` ASC; /*Ordem de salario reajustado ASCENDENTE*/
 
 ---
 ## QUESTÃO 05: 
->Prepare um relatório que liste, para cada **departamento**, o **nome do gerente** e o **nome dos funcionários**. Ordene esse relatório por **nome do departamento** (em ordem crescente) e por **salário dos funcionários** (em ordem decrescente). 
+Prepare um relatório que liste, para cada **departamento**, o **nome do gerente** e o **nome dos funcionários**. Ordene esse relatório por **nome do departamento** (em ordem crescente) e por **salário dos funcionários** (em ordem decrescente). 
 
 
 ```SQL
@@ -164,7 +164,7 @@ ORDER BY nome_departamento ASC, funcionario.salario DESC;
 ---
 
 ## QUESTÃO 06: 
->Prepare um relatório que mostre o **nome completo** dos funcionários **que têm dependentes**, o **departamento** onde eles trabalham e, para cada funcionário, também liste o **nome completo dos dependentes**, a **idade** em anos de cada dependente e o **sexo** (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
+Prepare um relatório que mostre o **nome completo** dos funcionários **que têm dependentes**, o **departamento** onde eles trabalham e, para cada funcionário, também liste o **nome completo dos dependentes**, a **idade** em anos de cada dependente e o **sexo** (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
 ```SQL
 SELECT 
 CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
@@ -197,7 +197,7 @@ INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero
 ---
 
 ## QUESTÃO 07: 
->Prepare um relatório que mostre, para cada **funcionário** que **NÃO TEM dependente**, seu **nome completo**, **departamento** e **salário**.
+Prepare um relatório que mostre, para cada **funcionário** que **NÃO TEM dependente**, seu **nome completo**, **departamento** e **salário**.
 ```SQL
 SELECT 
 CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario sem dependente',
@@ -224,7 +224,7 @@ WHERE cpf NOT IN (SELECT cpf_funcionario FROM dependente);
 ---
 
 ## QUESTÃO 08: 
-Prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
+Prepare um relatório que mostre, para cada **departamento**, os **projetos** desse departamento e o **nome** completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de **horas** trabalhadas por cada funcionário, em cada projeto.
 ```SQL
 SELECT 
 departamento.nome_departamento AS 'Departamento', 
@@ -244,6 +244,7 @@ AND (funcionario.numero_departamento = departamento.numero_departamento )
 ORDER BY projeto.numero_projeto ASC;
 ```
 ### Tabela 08:
+* Ordenado por Projetos para melhor legibilidade
 
 | Departamento    | Nome do projeto  | Nome do funcionário  | Horas trabalhadas |
 |-----------------|------------------|----------------------|-------------------|
@@ -268,7 +269,7 @@ ORDER BY projeto.numero_projeto ASC;
 ---
 
 ## QUESTÃO 09: 
-Prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
+Prepare um relatório que mostre a soma **total** das **horas** de cada **projeto** em cada **departamento**. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
 
 ```SQL
 SELECT 
@@ -285,8 +286,8 @@ ORDER BY SUM(trabalha_em.horas) ASC;
 ```
 
 ### Tabela 09:
+  * Ordenado por Horas para melhor legibilidade
   
- <sub><sup>HORAS ordenadas para melhor legibilidade</sup></sub>
 | Nome do Departamento | Nome do Projeto  | Horas Trabalhadas |
 |----------------------|------------------|-------------------|
 | Matriz               | Reogarnização    |              25.0 |
@@ -300,7 +301,7 @@ ORDER BY SUM(trabalha_em.horas) ASC;
 ---
 
 ## QUESTÃO 10: 
-Prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
+Prepare um relatório que mostre a **média** **salarial** dos funcionários de cada **departamento**.
 ```SQL
 SELECT 
 departamento.nome_departamento AS 'Nome do Departamento', 
@@ -324,7 +325,7 @@ ORDER BY TRUNCATE(AVG(salario),2) ASC;
 ---
 
 ## QUESTÃO 11: 
-Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
+Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o **nome** **completo** do funcionário, o nome do **projeto** e o **valor** **total** que o funcionário receberá referente às **horas** trabalhadas naquele projeto.
 ```SQL
 SELECT 
 CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) AS 'Nome do funcionário', 
@@ -336,10 +337,11 @@ FROM funcionario
 INNER JOIN trabalha_em on trabalha_em.cpf_funcionario = funcionario.cpf
 INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
 
-ORDER BY primeiro_nome ASC, trabalha_em.horas ASC;
+ORDER BY `Nome do funcionário` ASC, trabalha_em.horas ASC;
 ```
 ### Tabela 11:
-
+* Ordenado por Nome para melhor legibilidade
+  
 | Nome do funcionário  | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
 |----------------------|------------------|-------------------|-----------------------|
 | Alice J Zelaya       | Informatização   |              10.0 |                 500.0 |
@@ -362,7 +364,7 @@ ORDER BY primeiro_nome ASC, trabalha_em.horas ASC;
 ---
 
 ## QUESTÃO 12: 
-Seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
+Seu chefe está verificando as **horas** trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, **não** **registraram** nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do **departamento**, o nome do **projeto** e o nome dos **funcionários** que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
 ```SQL
 SELECT 
 departamento.nome_departamento AS 'Nome do departamento', 
@@ -387,7 +389,7 @@ WHERE (trabalha_em.horas = 0) OR (trabalha_em.horas IS NULL) ;
 ---
 
 ## QUESTÃO 13: 
-Durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente. 
+Durante o natal deste ano a empresa irá presentear **todos** os **funcionários** e **todos** os **dependentes** (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o **sexo** e a **idade** em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente. 
 ```SQL
 SELECT 
 CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Pessoas a presentear', 
@@ -414,7 +416,7 @@ FROM dependente
 
 INNER JOIN funcionario on dependente.cpf_funcionario = funcionario.cpf
 
-ORDER BY Idade DESC; /*Ordem de salario reajustado ASCENDENTE*/
+ORDER BY Idade DESC; 
 ```
 ### Tabela 13:
 
@@ -440,7 +442,7 @@ ORDER BY Idade DESC; /*Ordem de salario reajustado ASCENDENTE*/
 ---
 
 ## QUESTÃO 14: 
-Prepare um relatório que exiba quantos funcionários cada departamento tem.
+Prepare um relatório que exiba **quantos** **funcionários** cada **departamento** tem.
 ```SQL
 SELECT departamento.nome_departamento AS 'Nome Departamentos', 
 COUNT(funcionario.cpf) as 'Quantidade de funcionarios'
@@ -454,6 +456,7 @@ GROUP BY departamento.nome_departamento
 ORDER BY `Quantidade de Funcionarios` ASC; /* Uso de crase para selecinar alias da coluna com espaço (``)*/
 ```
 ### Tabela 14:
+* Ordenado por Qtd para melhor legibilidade
 
 | Nome Departamentos | Quantidade de funcionarios |
 |--------------------|----------------------------|
@@ -465,7 +468,7 @@ ORDER BY `Quantidade de Funcionarios` ASC; /* Uso de crase para selecinar alias 
 ---
 
 ## QUESTÃO 15: 
-Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
+Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do **funcionário**, o **departamento** desse funcionário e o nome dos **projetos** em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
 ```SQL
 SELECT 
 CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) "Nome Completo",
@@ -485,6 +488,7 @@ AND trabalha_em.cpf_funcionario = funcionario.cpf
 ORDER BY `Nome Completo` ASC;
 ```
 ### Tabela 15:
+* Ordenado por Nome para melhor legibilidade
 
 | Nome Completo    | Nome do Departamento | Projeto designado |
 |------------------|----------------------|-------------------|
