@@ -74,7 +74,7 @@ Prepare um relatório que liste o **nome dos departamentos** e, para cada depart
 SELECT 
 departamento.nome_departamento AS 'Nome Departamento', 
 funcionario.data_nascimento AS 'Data de Nascimento',
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome do Funcionário', 
+CONCAT(primeiro_nome," ", nome_meio,". ",ultimo_nome) AS 'Nome do Funcionário', 
 TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade', 
 funcionario.salario AS 'Salario'
 
@@ -88,16 +88,16 @@ ORDER BY `Nome Departamento` ASC; /*Ordem de departamento ASCENDENTE*/;
 ### Tabela 03:
 * Ordenado por departamento para melhor legibilidade
 
-| Nome Departamento | Data de Nascimento | Nome do Funcionário  | Idade | Salario  |
-|-------------------|--------------------|----------------------|-------|----------|
-| Administração     | 1968-01-19         | Alice J.Zelaya       |    54 | 25000.00 |
-| Administração     | 1941-06-20         | Jennifer S.Souza     |    80 | 43000.00 |
-| Administração     | 1969-03-29         | André V.Pereira      |    53 | 25000.00 |
-| Matriz            | 1937-11-10         | Jorge E.Brito        |    84 | 55000.00 |
-| Pesquisa          | 1962-09-15         | Ronaldo K.Lima       |    59 | 38000.00 |
-| Pesquisa          | 1965-01-09         | João B.Silva         |    57 | 30000.00 |
-| Pesquisa          | 1955-12-08         | Fernando T.Wong      |    66 | 40000.00 |
-| Pesquisa          | 1972-07-31         | Joice A.Leite        |    49 | 25000.00 |
+| Nome Departamento | Data de Nascimento | Nome do Funcionário   | Idade | Salario  |
+|-------------------|--------------------|-----------------------|-------|----------|
+| Administração     | 1968-01-19         | Alice J. Zelaya       |    54 | 25000.00 |
+| Administração     | 1941-06-20         | Jennifer S. Souza     |    80 | 43000.00 |
+| Administração     | 1969-03-29         | André V. Pereira      |    53 | 25000.00 |
+| Matriz            | 1937-11-10         | Jorge E. Brito        |    84 | 55000.00 |
+| Pesquisa          | 1962-09-15         | Ronaldo K. Lima       |    59 | 38000.00 |
+| Pesquisa          | 1965-01-09         | João B. Silva         |    57 | 30000.00 |
+| Pesquisa          | 1955-12-08         | Fernando T. Wong      |    66 | 40000.00 |
+| Pesquisa          | 1972-07-31         | Joice A. Leite        |    49 | 25000.00 |
 
 
 ---
@@ -106,7 +106,7 @@ Prepare um relatório que mostre o **nome completo dos funcionários**, a **idad
 
 ```SQL
 SELECT 
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome Completo', 
+CONCAT(primeiro_nome," ", nome_meio,". ",ultimo_nome) AS 'Nome Completo', 
 TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade',
 TRUNCATE(salario,2) AS 'Salario', 
 TRUNCATE(salario,2)*1.2 AS 'Salario Reajustado'
@@ -116,7 +116,7 @@ WHERE salario < 35000 /*Salarios menores que 35 mil recebem 20% reajuste*/
 
 UNION
 
-SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Nome Completo',
+SELECT CONCAT(primeiro_nome," ", nome_meio,". ",ultimo_nome) AS 'Nome Completo',
 TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade',
 TRUNCATE(salario,2) AS 'Salario', 
 TRUNCATE(salario,2)*1.15 AS'Salario Reajustado' 
@@ -130,16 +130,16 @@ ORDER BY `Salario Reajustado` ASC; /*Ordem de salario reajustado ASCENDENTE*/
 ### Tabela 04: 
 * Ordenado por Salário para melhor legibilidade
 
-| Nome do Funcionário  | Idade | Salário  | Salário Reajustado  |
-|----------------------|-------|----------|---------------------|
-| Joice A.Leite        |    49 | 25000.00 |          30000.0000 |
-| André V.Pereira      |    53 | 25000.00 |          30000.0000 |
-| Alice J.Zelaya       |    54 | 25000.00 |          30000.0000 |
-| João B.Silva         |    57 | 30000.00 |          36000.0000 |
-| Ronaldo K.Lima       |    59 | 38000.00 |          43700.0000 |
-| Fernando T.Wong      |    66 | 40000.00 |          46000.0000 |
-| Jennifer S.Souza     |    80 | 43000.00 |          49450.0000 |
-| Jorge E.Brito        |    84 | 55000.00 |          63250.0000 |
+| Nome Completo     | Idade | Salario  | Salario Reajustado |
+|-------------------|-------|----------|--------------------|
+| Joice A. Leite    |    49 | 25000.00 |         30000.0000 |
+| André V. Pereira  |    53 | 25000.00 |         30000.0000 |
+| Alice J. Zelaya   |    54 | 25000.00 |         30000.0000 |
+| João B. Silva     |    57 | 30000.00 |         36000.0000 |
+| Ronaldo K. Lima   |    59 | 38000.00 |         43700.0000 |
+| Fernando T. Wong  |    66 | 40000.00 |         46000.0000 |
+| Jennifer S. Souza |    80 | 43000.00 |         49450.0000 |
+| Jorge E. Brito    |    84 | 55000.00 |         63250.0000 |
 
 ---
 ## QUESTÃO 05: 
@@ -148,9 +148,9 @@ Prepare um relatório que liste, para cada **departamento**, o **nome do gerente
 
 ```SQL
 SELECT departamento.nome_departamento as  'Departamento', 
-CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome Funcionário', 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,". ",funcionario.ultimo_nome) AS 'Nome Funcionário', 
 funcionario.salario AS 'Salário',
-CONCAT(func_gerente.primeiro_nome," ", func_gerente.nome_meio,".", func_gerente.ultimo_nome) AS 'Nome Gerente'
+CONCAT(func_gerente.primeiro_nome," ", func_gerente.nome_meio,". ", func_gerente.ultimo_nome) AS 'Nome Gerente'
 
 FROM departamento
 
@@ -166,16 +166,16 @@ ORDER BY nome_departamento ASC, funcionario.salario DESC;
 ```
 ### Tabela 05:
 
-| Departamento    | Nome do Funcionário  | Salário  | Nome do Gerente  |
-|-----------------|----------------------|----------|------------------|
-| Administração   | Jennifer S.Souza     | 43000.00 | Jennifer S.Souza |
-| Administração   | Alice J.Zelaya       | 25000.00 | Jennifer S.Souza |
-| Administração   | André V.Pereira      | 25000.00 | Jennifer S.Souza |
-| Matriz          | Jorge E.Brito        | 55000.00 | Jorge E.Brito    |
-| Pesquisa        | Fernando T.Wong      | 40000.00 | Fernando T.Wong  |
-| Pesquisa        | Ronaldo K.Lima       | 38000.00 | Fernando T.Wong  |
-| Pesquisa        | João B.Silva         | 30000.00 | Fernando T.Wong  |
-| Pesquisa        | Joice A.Leite        | 25000.00 | Fernando T.Wong  |
+| Departamento    | Nome do Funcionário   | Salário  | Nome do Gerente   |
+|-----------------|-----------------------|----------|-------------------|
+| Administração   | Jennifer S. Souza     | 43000.00 | Jennifer S. Souza |
+| Administração   | Alice J. Zelaya       | 25000.00 | Jennifer S. Souza |
+| Administração   | André V. Pereira      | 25000.00 | Jennifer S. Souza |
+| Matriz          | Jorge E. Brito        | 55000.00 | Jorge E. Brito    |
+| Pesquisa        | Fernando T. Wong      | 40000.00 | Fernando T. Wong  |
+| Pesquisa        | Ronaldo K. Lima       | 38000.00 | Fernando T. Wong  |
+| Pesquisa        | João B. Silva         | 30000.00 | Fernando T. Wong  |
+| Pesquisa        | Joice A. Leite        | 25000.00 | Fernando T. Wong  |
 
 ---
 
@@ -183,9 +183,12 @@ ORDER BY nome_departamento ASC, funcionario.salario DESC;
 Prepare um relatório que mostre o **nome completo** dos funcionários **que têm dependentes**, o **departamento** onde eles trabalham e, para cada funcionário, também liste o **nome completo dos dependentes**, a **idade** em anos de cada dependente e o **sexo** (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
 ```SQL
 SELECT 
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
+CONCAT(primeiro_nome," ", nome_meio,". ",ultimo_nome) AS 'Funcionario com dependente',
 departamento.nome_departamento AS 'Departamento onde Trabalham',
-CONCAT(dependente.nome_dependente," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome do Dependente',
+CONCAT(dependente.nome_dependente," ",funcionario.ultimo_nome) AS 'Nome do Dependente',
+/*Considerando que dependentes compartilham sobrenomes por matrimônio e paternidade, 
+mas que não compartilham 100% de sobrenomes, exceto em caso de fraternidade, 
+assume-se apenas o ultimo nome do funcionário à que depende*/
 TIMESTAMPDIFF(YEAR, dependente.data_nascimento, CURDATE()) AS 'Idade do dependente',
 (CASE dependente.sexo
 WHEN 'M' THEN 'Masculino'
@@ -201,13 +204,13 @@ INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero
 
 | Funcionario com dependente | Departamento onde Trabalham | Nome do Dependente | Idade do dependente | Sexo do dependente |
 |----------------------------|-----------------------------|--------------------|---------------------|--------------------|
-| João B.Silva               | Pesquisa                    | Alicia B.Silva     |                  33 | Feminino           |
-| João B.Silva               | Pesquisa                    | Elizabeth B.Silva  |                  55 | Feminino           |
-| João B.Silva               | Pesquisa                    | Michael B.Silva    |                  34 | Masculino          |
-| Fernando T.Wong            | Pesquisa                    | Alicia T.Wong      |                  36 | Feminino           |
-| Fernando T.Wong            | Pesquisa                    | Janaína T.Wong     |                  64 | Feminino           |
-| Fernando T.Wong            | Pesquisa                    | Tiago T.Wong       |                  38 | Masculino          |
-| Jennifer S.Souza           | Administração               | Antonio S.Souza    |                  80 | Masculino          |
+| João B.Silva               | Pesquisa                    | Alicia Silva       |                  33 | Feminino           |
+| João B.Silva               | Pesquisa                    | Elizabeth Silva    |                  55 | Feminino           |
+| João B.Silva               | Pesquisa                    | Michael Silva      |                  34 | Masculino          |
+| Fernando T.Wong            | Pesquisa                    | Alicia Wong        |                  36 | Feminino           |
+| Fernando T.Wong            | Pesquisa                    | Janaína Wong       |                  64 | Feminino           |
+| Fernando T.Wong            | Pesquisa                    | Tiago Wong         |                  38 | Masculino          |
+| Jennifer S.Souza           | Administração               | Antonio Souza      |                  80 | Masculino          |
 
 
 ---
@@ -216,7 +219,7 @@ INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero
 Prepare um relatório que mostre, para cada **funcionário** que **NÃO TEM dependente**, seu **nome completo**, **departamento** e **salário**.
 ```SQL
 SELECT 
-CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario sem dependente',
+CONCAT(primeiro_nome," ", nome_meio,". ",ultimo_nome) AS 'Funcionario sem dependente',
 departamento.nome_departamento AS 'Departamento onde Trabalham',
 funcionario.salario AS 'Salário'
 FROM funcionario
@@ -228,13 +231,13 @@ WHERE cpf NOT IN (SELECT cpf_funcionario FROM dependente);
 ```
 ### Tabela 07:
 
-| Funcionario sem dependente | Departamento onde Trabalham | Salário  |
-|----------------------------|-----------------------------|----------|
-| Joice A.Leite              | Pesquisa                    | 25000.00 |
-| Ronaldo K.Lima             | Pesquisa                    | 38000.00 |
-| Jorge E.Brito              | Matriz                      | 55000.00 |
-| André V.Pereira            | Administração               | 25000.00 |
-| Alice J.Zelaya             | Administração               | 25000.00 |
+| Funcionario sem dependente  | Departamento onde Trabalham | Salário  |
+|-----------------------------|-----------------------------|----------|
+| Joice A. Leite              | Pesquisa                    | 25000.00 |
+| Ronaldo K. Lima             | Pesquisa                    | 38000.00 |
+| Jorge E. Brito              | Matriz                      | 55000.00 |
+| André V. Pereira            | Administração               | 25000.00 |
+| Alice J. Zelaya             | Administração               | 25000.00 |
 
 
 ---
@@ -245,7 +248,7 @@ Prepare um relatório que mostre, para cada **departamento**, os **projetos** de
 SELECT 
 departamento.nome_departamento AS 'Departamento', 
 projeto.nome_projeto 'Nome do projeto',
-CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) "Nome do funcionário", 
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, '. ', funcionario.ultimo_nome) "Nome do funcionário", 
 TRUNCATE(trabalha_em.horas,1) 'Horas trabalhadas'
 
 FROM funcionario
@@ -262,24 +265,24 @@ ORDER BY projeto.numero_projeto ASC;
 ### Tabela 08:
 * Ordenado por Projetos para melhor legibilidade
 
-| Departamento    | Nome do projeto  | Nome do funcionário  | Horas trabalhadas |
-|-----------------|------------------|----------------------|-------------------|
-| Pesquisa        | ProdutoX         | João B Silva         |              32.5 |
-| Pesquisa        | ProdutoX         | Joice A Leite        |              20.0 |
-| Pesquisa        | ProdutoY         | João B Silva         |               7.5 |
-| Pesquisa        | ProdutoY         | Fernando T Wong      |              10.0 |
-| Pesquisa        | ProdutoY         | Joice A Leite        |              10.0 |
-| Pesquisa        | ProdutoZ         | Fernando T Wong      |              10.0 |
-| Pesquisa        | ProdutoZ         | Ronaldo K Lima       |              40.0 |
-| Pesquisa        | Informatização   | Fernando T Wong      |              10.0 |
-| Administração   | Informatização   | André V Pereira      |              35.0 |
-| Administração   | Informatização   | Alice J Zelaya       |              10.0 |
-| Pesquisa        | Reogarnização    | Fernando T Wong      |              10.0 |
-| Matriz          | Reogarnização    | Jorge E Brito        |               0.0 |
-| Administração   | Reogarnização    | Jennifer S Souza     |              15.0 |
-| Administração   | Novosbenefícios  | Jennifer S Souza     |              20.0 |
-| Administração   | Novosbenefícios  | André V Pereira      |               5.0 |
-| Administração   | Novosbenefícios  | Alice J Zelaya       |              30.0 |
+| Departamento    | Nome do projeto  | Nome do funcionário   | Horas trabalhadas |
+|-----------------|------------------|-----------------------|-------------------|
+| Pesquisa        | ProdutoX         | João B. Silva         |              32.5 |
+| Pesquisa        | ProdutoX         | Joice A. Leite        |              20.0 |
+| Pesquisa        | ProdutoY         | João B. Silva         |               7.5 |
+| Pesquisa        | ProdutoY         | Fernando T. Wong      |              10.0 |
+| Pesquisa        | ProdutoY         | Joice A. Leite        |              10.0 |
+| Pesquisa        | ProdutoZ         | Fernando T. Wong      |              10.0 |
+| Pesquisa        | ProdutoZ         | Ronaldo K. Lima       |              40.0 |
+| Pesquisa        | Informatização   | Fernando T. Wong      |              10.0 |
+| Administração   | Informatização   | André V. Pereira      |              35.0 |
+| Administração   | Informatização   | Alice J. Zelaya       |              10.0 |
+| Pesquisa        | Reogarnização    | Fernando T. Wong      |              10.0 |
+| Matriz          | Reogarnização    | Jorge E. Brito        |               0.0 |
+| Administração   | Reogarnização    | Jennifer S. Souza     |              15.0 |
+| Administração   | Novosbenefícios  | Jennifer S. Souza     |              20.0 |
+| Administração   | Novosbenefícios  | André V. Pereira      |               5.0 |
+| Administração   | Novosbenefícios  | Alice J. Zelaya       |              30.0 |
 
 
 ---
@@ -344,7 +347,7 @@ ORDER BY TRUNCATE(AVG(salario),2) ASC;
 Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o **nome** **completo** do funcionário, o nome do **projeto** e o **valor** **total** que o funcionário receberá referente às **horas** trabalhadas naquele projeto.
 ```SQL
 SELECT 
-CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) AS 'Nome do funcionário', 
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, '. ', funcionario.ultimo_nome) AS 'Nome do funcionário', 
 projeto.nome_projeto AS 'Nome do Projeto', 
 trabalha_em.horas AS 'Horas Trabalhadas',
 trabalha_em.horas*50 AS 'Valor Total por Horas'
@@ -358,24 +361,24 @@ ORDER BY `Nome do funcionário` ASC, trabalha_em.horas ASC;
 ### Tabela 11:
 * Ordenado por Nome para melhor legibilidade
   
-| Nome do funcionário  | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
-|----------------------|------------------|-------------------|-----------------------|
-| Alice J Zelaya       | Informatização   |              10.0 |                 500.0 |
-| Alice J Zelaya       | Novosbenefícios  |              30.0 |                1500.0 |
-| André V Pereira      | Novosbenefícios  |               5.0 |                 250.0 |
-| André V Pereira      | Informatização   |              35.0 |                1750.0 |
-| Fernando T Wong      | ProdutoZ         |              10.0 |                 500.0 |
-| Fernando T Wong      | Informatização   |              10.0 |                 500.0 |
-| Fernando T Wong      | Reogarnização    |              10.0 |                 500.0 |
-| Fernando T Wong      | ProdutoY         |              10.0 |                 500.0 |
-| Jennifer S Souza     | Reogarnização    |              15.0 |                 750.0 |
-| Jennifer S Souza     | Novosbenefícios  |              20.0 |                1000.0 |
-| João B Silva         | ProdutoY         |               7.5 |                 375.0 |
-| João B Silva         | ProdutoX         |              32.5 |                1625.0 |
-| Joice A Leite        | ProdutoY         |              10.0 |                 500.0 |
-| Joice A Leite        | ProdutoX         |              20.0 |                1000.0 |
-| Jorge E Brito        | Reogarnização    |               0.0 |                   0.0 |
-| Ronaldo K Lima       | ProdutoZ         |              40.0 |                2000.0 |
+| Nome do funcionário   | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
+|-----------------------|------------------|-------------------|-----------------------|
+| Alice J. Zelaya       | Informatização   |              10.0 |                 500.0 |
+| Alice J. Zelaya       | Novosbenefícios  |              30.0 |                1500.0 |
+| André V. Pereira      | Novosbenefícios  |               5.0 |                 250.0 |
+| André V. Pereira      | Informatização   |              35.0 |                1750.0 |
+| Fernando T. Wong      | ProdutoZ         |              10.0 |                 500.0 |
+| Fernando T. Wong      | Informatização   |              10.0 |                 500.0 |
+| Fernando T. Wong      | Reogarnização    |              10.0 |                 500.0 |
+| Fernando T. Wong      | ProdutoY         |              10.0 |                 500.0 |
+| Jennifer S. Souza     | Reogarnização    |              15.0 |                 750.0 |
+| Jennifer S. Souza     | Novosbenefícios  |              20.0 |                1000.0 |
+| João B. Silva         | ProdutoY         |               7.5 |                 375.0 |
+| João B. Silva         | ProdutoX         |              32.5 |                1625.0 |
+| Joice A. Leite        | ProdutoY         |              10.0 |                 500.0 |
+| Joice A. Leite        | ProdutoX         |              20.0 |                1000.0 |
+| Jorge E. Brito        | Reogarnização    |               0.0 |                   0.0 |
+| Ronaldo K. Lima       | ProdutoZ         |              40.0 |                2000.0 |
 
 ---
 
@@ -385,7 +388,7 @@ Seu chefe está verificando as **horas** trabalhadas pelos funcionários nos pro
 SELECT 
 departamento.nome_departamento AS 'Nome do departamento', 
 projeto.nome_projeto AS 'Projeto Designado', 
-CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome Funcionario', 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,". ",funcionario.ultimo_nome) AS 'Nome Funcionario', 
 trabalha_em.horas AS 'Horas'
 
 FROM funcionario
@@ -397,9 +400,9 @@ WHERE (trabalha_em.horas = 0) OR (trabalha_em.horas IS NULL) ;
 ```
 ### Tabela 12:
 
-| Nome do departamento | Projeto Designado | Nome Funcionario | Horas |
-|----------------------|-------------------|------------------|-------|
-| Matriz               | Reogarnização     | Jorge E.Brito    |   0.0 |
+| Nome do departamento | Projeto Designado | Nome Funcionario  | Horas |
+|----------------------|-------------------|-------------------|-------|
+| Matriz               | Reogarnização     | Jorge E. Brito    |   0.0 |
 
 
 ---
@@ -408,7 +411,7 @@ WHERE (trabalha_em.horas = 0) OR (trabalha_em.horas IS NULL) ;
 Durante o natal deste ano a empresa irá presentear **todos** os **funcionários** e **todos** os **dependentes** (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o **sexo** e a **idade** em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente. 
 ```SQL
 SELECT 
-CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Pessoas a presentear', 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,". ",funcionario.ultimo_nome) AS 'Pessoas a presentear', 
 (CASE WHEN sexo = 'M' THEN 'MASCULINO'
 WHEN sexo = 'F' THEN 'FEMININO'
 END) 'Sexo',
@@ -436,23 +439,23 @@ ORDER BY Idade DESC;
 ```
 ### Tabela 13:
 
-| Pessoas a presentear | Sexo      | Idade |
-|----------------------|-----------|-------|
-| Jorge E.Brito        | MASCULINO |    84 |
-| Antonio Souza        | MASCULINO |    80 |
-| Jennifer S.Souza     | FEMININO  |    80 |
-| Fernando T.Wong      | MASCULINO |    66 |
-| Janaína Wong         | FEMININO  |    64 |
-| Ronaldo K.Lima       | MASCULINO |    59 |
-| João B.Silva         | MASCULINO |    57 |
-| Elizabeth Silva      | FEMININO  |    55 |
-| Alice J.Zelaya       | FEMININO  |    54 |
-| André V.Pereira      | MASCULINO |    53 |
-| Joice A.Leite        | FEMININO  |    49 |
-| Tiago Wong           | MASCULINO |    38 |
-| Alicia Wong          | FEMININO  |    36 |
-| Michael Silva        | MASCULINO |    34 |
-| Alicia Silva         | FEMININO  |    33 |
+| Pessoas a presentear  | Sexo      | Idade |
+|-----------------------|-----------|-------|
+| Jorge E. Brito        | MASCULINO |    84 |
+| Antonio Souza         | MASCULINO |    80 |
+| Jennifer S. Souza     | FEMININO  |    80 |
+| Fernando T. Wong      | MASCULINO |    66 |
+| Janaína Wong          | FEMININO  |    64 |
+| Ronaldo K. Lima       | MASCULINO |    59 |
+| João B. Silva         | MASCULINO |    57 |
+| Elizabeth Silva       | FEMININO  |    55 |
+| Alice J. Zelaya       | FEMININO  |    54 |
+| André V. Pereira      | MASCULINO |    53 |
+| Joice A. Leite        | FEMININO  |    49 |
+| Tiago Wong            | MASCULINO |    38 |
+| Alicia Wong           | FEMININO  |    36 |
+| Michael Silva         | MASCULINO |    34 |
+| Alicia Silva          | FEMININO  |    33 |
 
 
 ---
@@ -487,7 +490,7 @@ ORDER BY `Quantidade de Funcionarios` ASC; /* Uso de crase para selecinar alias 
 Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do **funcionário**, o **departamento** desse funcionário e o nome dos **projetos** em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
 ```SQL
 SELECT 
-CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) "Nome Completo",
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, '. ', funcionario.ultimo_nome) "Nome Completo",
 departamento.nome_departamento 'Nome do Departamento', 
 projeto.nome_projeto 'Projeto designado'
 
@@ -506,24 +509,24 @@ ORDER BY `Nome Completo` ASC;
 ### Tabela 15:
 * Ordenado por Nome para melhor legibilidade
 
-| Nome Completo    | Nome do Departamento | Projeto designado |
-|------------------|----------------------|-------------------|
-| Alice J Zelaya   | Administração        | Novosbenefícios   |
-| Alice J Zelaya   | Administração        | Informatização    |
-| André V Pereira  | Administração        | Novosbenefícios   |
-| André V Pereira  | Administração        | Informatização    |
-| Fernando T Wong  | Pesquisa             | Reogarnização     |
-| Fernando T Wong  | Pesquisa             | ProdutoY          |
-| Fernando T Wong  | Pesquisa             | Informatização    |
-| Fernando T Wong  | Pesquisa             | ProdutoZ          |
-| Jennifer S Souza | Administração        | Reogarnização     |
-| Jennifer S Souza | Administração        | Novosbenefícios   |
-| João B Silva     | Pesquisa             | ProdutoX          |
-| João B Silva     | Pesquisa             | ProdutoY          |
-| Joice A Leite    | Pesquisa             | ProdutoY          |
-| Joice A Leite    | Pesquisa             | ProdutoX          |
-| Jorge E Brito    | Matriz               | Reogarnização     |
-| Ronaldo K Lima   | Pesquisa             | ProdutoZ          |
+| Nome Completo     | Nome do Departamento | Projeto designado |
+|-------------------|----------------------|-------------------|
+| Alice J. Zelaya   | Administração        | Novosbenefícios   |
+| Alice J. Zelaya   | Administração        | Informatização    |
+| André V. Pereira  | Administração        | Novosbenefícios   |
+| André V. Pereira  | Administração        | Informatização    |
+| Fernando T. Wong  | Pesquisa             | Reogarnização     |
+| Fernando T. Wong  | Pesquisa             | ProdutoY          |
+| Fernando T. Wong  | Pesquisa             | Informatização    |
+| Fernando T. Wong  | Pesquisa             | ProdutoZ          |
+| Jennifer S. Souza | Administração        | Reogarnização     |
+| Jennifer S. Souza | Administração        | Novosbenefícios   |
+| João B. Silva     | Pesquisa             | ProdutoX          |
+| João B. Silva     | Pesquisa             | ProdutoY          |
+| Joice A. Leite    | Pesquisa             | ProdutoY          |
+| Joice A. Leite    | Pesquisa             | ProdutoX          |
+| Jorge E. Brito    | Matriz               | Reogarnização     |
+| Ronaldo K. Lima   | Pesquisa             | ProdutoZ          |
 
 
 ---
