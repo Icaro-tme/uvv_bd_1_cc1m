@@ -1,3 +1,19 @@
+# PSET 2 - Desenvolvimento de Banco de Dados
+---
+**Aluno:** Ícaro Araújo Barros
+
+**Turma:** CC1M
+
+**Professor:** Abrantes Araújo Silva Filho
+
+**Monitoria:** Suellen Miranda Amorim
+
+---
+# RESPOSTAS EM SQL E TABELAS:
+Dentro desse PSet estão arquivos que trabalham com o processo de aprendizado de algebra relacional em SQL.
+Neste arquivo README estão todas as respostas encontrdas no arquivo [QuestõesPSET2_SQL.sql](QuestõesPSET2_SQL.sql), junto com as tabelas que este resulta no terminal do MariaDB/Mysql.
+
+---
 
 ## QUESTÃO 01: 
 Prepare um relatório que mostre a **média salarial** dos **funcionários de cada departamento**. 
@@ -511,3 +527,11 @@ ORDER BY `Nome Completo` ASC;
 
 
 ---
+
+# Desenvolvimento
+Implementar estes códigos SQL foi uma experiência cansativa porém animadora, já que traz algo tactível e prático para conceitos que em teoria podem ser ligeiramente confusos ou convolutos. Aplicar CONCTS, JOINS, GROUPS e UNIONS, se tornam operações mais intuitívas a partir deste PSET.
+
+
+# Autor
+
+[Ícaro Araújo Barros](https://github.com/Icaro-tme)
