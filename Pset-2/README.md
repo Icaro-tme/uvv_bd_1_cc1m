@@ -1,23 +1,30 @@
 
-### QUESTÃO 01: 
-```SQL
---Prepare um relatório que mostre a média salarial dos funcionários de cada departamento. 
+## QUESTÃO 01: 
+Prepare um relatório que mostre a média salarial dos funcionários de cada departamento. 
 
-SELECT numero_departamento, TRUNCATE(AVG(salario),2) AS media_salarial /*TRUNCATE() faz com que o salario mostre apenas 2 decimais*/
-FROM funcionario 
-GROUP BY numero_departamento;
-```
-Tabela resultante:
 ```SQL
-+---------------------+----------------+
-| numero_departamento | media_salarial |
-+---------------------+----------------+
-|                   1 |       55000.00 |
-|                   4 |       31000.00 |
-|                   5 |       33250.00 |
-+---------------------+----------------+
+SELECT 
+departamento.nome_departamento AS 'Nome do Departamento', 
+TRUNCATE(AVG(salario),2) AS `Média Salarial`/*TRUNCATE() faz com que o salario mostre apenas 2 decimais*/
+
+FROM funcionario 
+INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento
+
+GROUP BY departamento.numero_departamento
+ORDER BY `Média Salarial` ASC;
 ```
----
+### Tabela resultante:
+* Ordenado por média salarial ascendente
+
+
+| Nome do Departamento | Média Salarial  |
+|----------------------|-----------------|
+| Administração        |        31000.00 |
+| Pesquisa             |        33250.00 |
+| Matriz               |        55000.00 |
+|----------------------|-----------------|
+
+
 ### QUESTÃO 02: 
 Prepare um relatório que mostre a média salarial dos homens e das mulheres.
 
