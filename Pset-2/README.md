@@ -306,25 +306,35 @@ Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, 
 SELECT 
 CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) AS 'Nome do funcionário', 
 projeto.nome_projeto AS 'Nome do Projeto', 
-SUM(trabalha_em.horas) AS 'Horas Trabalhadas',
-SUM(trabalha_em.horas)*50 AS 'Valor Total por Horas'
+trabalha_em.horas AS 'Horas Trabalhadas',
+trabalha_em.horas*50 AS 'Valor Total por Horas'
 
 FROM funcionario
 INNER JOIN trabalha_em on trabalha_em.cpf_funcionario = funcionario.cpf
 INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
-GROUP BY projeto.nome_projeto ASC
-ORDER BY primeiro_nome ASC, SUM(trabalha_em.horas) ASC;
+
+ORDER BY primeiro_nome ASC, trabalha_em.horas ASC;
 ```
 Tabela resultante:
 
 | Nome do funcionário  | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
 |----------------------|------------------|-------------------|-----------------------|
-| Fernando T Wong      | Reogarnização    |              25.0 |                1250.0 |
-| Fernando T Wong      | ProdutoZ         |              50.0 |                2500.0 |
-| Fernando T Wong      | Informatização   |              55.0 |                2750.0 |
-| Jennifer S Souza     | Novosbenefícios  |              55.0 |                2750.0 |
-| João B Silva         | ProdutoY         |              27.5 |                1375.0 |
-| João B Silva         | ProdutoX         |              52.5 |                2625.0 |
+| Alice J Zelaya       | Informatização   |              10.0 |                 500.0 |
+| Alice J Zelaya       | Novosbenefícios  |              30.0 |                1500.0 |
+| André V Pereira      | Novosbenefícios  |               5.0 |                 250.0 |
+| André V Pereira      | Informatização   |              35.0 |                1750.0 |
+| Fernando T Wong      | ProdutoZ         |              10.0 |                 500.0 |
+| Fernando T Wong      | Informatização   |              10.0 |                 500.0 |
+| Fernando T Wong      | Reogarnização    |              10.0 |                 500.0 |
+| Fernando T Wong      | ProdutoY         |              10.0 |                 500.0 |
+| Jennifer S Souza     | Reogarnização    |              15.0 |                 750.0 |
+| Jennifer S Souza     | Novosbenefícios  |              20.0 |                1000.0 |
+| João B Silva         | ProdutoY         |               7.5 |                 375.0 |
+| João B Silva         | ProdutoX         |              32.5 |                1625.0 |
+| Joice A Leite        | ProdutoY         |              10.0 |                 500.0 |
+| Joice A Leite        | ProdutoX         |              20.0 |                1000.0 |
+| Jorge E Brito        | Reogarnização    |               0.0 |                   0.0 |
+| Ronaldo K Lima       | ProdutoZ         |              40.0 |                2000.0 |
 |----------------------|------------------|-------------------|-----------------------|
 
 ### QUESTÃO 12: 
