@@ -150,7 +150,7 @@ Tabela resultante:
 +-----------------+-------------------+----------+------------------+
 ```
 
-### QUESTÃO 06: QUESTÃO 06: 
+### QUESTÃO 06: 
 Prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou “Feminino”). 
 ```SQL
 SELECT CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario com dependente',
@@ -183,12 +183,28 @@ Tabela resultante:
 ### QUESTÃO 07: 
 Prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.
 ```SQL
+SELECT 
+CONCAT(primeiro_nome," ", nome_meio,".",ultimo_nome) AS 'Funcionario sem dependente',
+departamento.nome_departamento AS 'Departamento onde Trabalham',
+funcionario.salario AS 'Salário'
+FROM funcionario
 
+INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero_departamento
+
+WHERE cpf NOT IN (SELECT cpf_funcionario FROM dependente); 
+/*Apenas selecionar funcionários quais o CPF não aparece na coluna cpf_funcionário dentro da tabela Dependentes*/
 ```
 Tabela resultante:
-```SQL
 
-```
+| Funcionario sem dependente | Departamento onde Trabalham | Salário  |
+|----------------------------|-----------------------------|----------|
+| Joice A.Leite              | Pesquisa                    | 25000.00 |
+| Ronaldo K.Lima             | Pesquisa                    | 38000.00 |
+| Jorge E.Brito              | Matriz                      | 55000.00 |
+| André V.Pereira            | Administração               | 25000.00 |
+| Alice J.Zelaya             | Administração               | 25000.00 |
+|----------------------------|-----------------------------|----------|
+
 
 ### QUESTÃO 08: 
 Prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
