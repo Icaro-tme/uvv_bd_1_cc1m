@@ -69,7 +69,7 @@ INNER JOIN funcionario ON departamento.numero_departamento = funcionario.numero_
 ORDER BY `Nome Departamento` ASC; /*Ordem de departamento ASCENDENTE*/;
 ```
 
-## Tabela 03:
+### Tabela 03:
 * Ordenado por departamento para melhor legibilidade
 
 | Nome Departamento | Data de Nascimento | Nome do Funcionário  | Idade | Salario  |
@@ -111,7 +111,7 @@ WHERE salario >= 35000 /*Salarios igual ou maiores que 35 mil recebem 15% reajus
 ORDER BY `Salario Reajustado` ASC; /*Ordem de salario reajustado ASCENDENTE*/
 ```
 
-## Tabela 04: 
+### Tabela 04: 
 * Ordenado em Salário para melhor legibilidade
 
 | Nome do Funcionário  | Idade | Salário  | Salário Reajustado  |
@@ -194,6 +194,8 @@ INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero
 | Jennifer S.Souza           | Administração               | Antonio S.Souza    |                  80 | Masculino          |
 
 
+---
+
 ## QUESTÃO 07: 
 >Prepare um relatório que mostre, para cada **funcionário** que **NÃO TEM dependente**, seu **nome completo**, **departamento** e **salário**.
 ```SQL
@@ -208,7 +210,7 @@ INNER JOIN departamento ON departamento.numero_departamento = funcionario.numero
 WHERE cpf NOT IN (SELECT cpf_funcionario FROM dependente); 
 /*Apenas selecionar funcionários quais o CPF não aparece na coluna cpf_funcionário dentro da tabela Dependentes*/
 ```
-Tabela resultante:
+### Tabela 07:
 
 | Funcionario sem dependente | Departamento onde Trabalham | Salário  |
 |----------------------------|-----------------------------|----------|
@@ -217,8 +219,9 @@ Tabela resultante:
 | Jorge E.Brito              | Matriz                      | 55000.00 |
 | André V.Pereira            | Administração               | 25000.00 |
 | Alice J.Zelaya             | Administração               | 25000.00 |
-|----------------------------|-----------------------------|----------|
 
+
+---
 
 ## QUESTÃO 08: 
 Prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto.
@@ -240,7 +243,7 @@ AND (funcionario.numero_departamento = departamento.numero_departamento )
 
 ORDER BY projeto.numero_projeto ASC;
 ```
-Tabela resultante:
+### Tabela 08:
 
 | Departamento    | Nome do projeto  | Nome do funcionário  | Horas trabalhadas |
 |-----------------|------------------|----------------------|-------------------|
@@ -260,8 +263,9 @@ Tabela resultante:
 | Administração   | Novosbenefícios  | Jennifer S Souza     |              20.0 |
 | Administração   | Novosbenefícios  | André V Pereira      |               5.0 |
 | Administração   | Novosbenefícios  | Alice J Zelaya       |              30.0 |
-|-----------------|------------------|----------------------|-------------------|
 
+
+---
 
 ## QUESTÃO 09: 
 Prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
@@ -279,8 +283,8 @@ INNER JOIN departamento ON departamento.numero_departamento = projeto.numero_dep
 GROUP BY projeto.nome_projeto, 
 ORDER BY SUM(trabalha_em.horas) ASC;
 ```
-<details>
-<summary> Tabela 09:</summary>
+
+### Tabela 09:
   
  <sub><sup>HORAS ordenadas para melhor legibilidade</sup></sub>
 | Nome do Departamento | Nome do Projeto  | Horas Trabalhadas |
@@ -291,8 +295,9 @@ ORDER BY SUM(trabalha_em.horas) ASC;
 | Pesquisa             | ProdutoX         |              52.5 |
 | Administração        | Informatização   |              55.0 |
 | Administração        | Novosbenefícios  |              55.0 |
-|----------------------|------------------|-------------------|
-</details>
+
+
+---
 
 ## QUESTÃO 10: 
 Prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
@@ -307,14 +312,16 @@ INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero
 GROUP BY nome_departamento
 ORDER BY TRUNCATE(AVG(salario),2) ASC;
 ```
-Tabela resultante:
+### Tabela 10:
 
 | Nome do Departamento | Media Salarial |
 |----------------------|----------------|
 | Administração        |       31000.00 |
 | Pesquisa             |       33250.00 |
 | Matriz               |       55000.00 |
-|----------------------|----------------|
+
+
+---
 
 ## QUESTÃO 11: 
 Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
@@ -331,7 +338,7 @@ INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
 
 ORDER BY primeiro_nome ASC, trabalha_em.horas ASC;
 ```
-Tabela resultante:
+### Tabela 11:
 
 | Nome do funcionário  | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
 |----------------------|------------------|-------------------|-----------------------|
@@ -351,7 +358,8 @@ Tabela resultante:
 | Joice A Leite        | ProdutoX         |              20.0 |                1000.0 |
 | Jorge E Brito        | Reogarnização    |               0.0 |                   0.0 |
 | Ronaldo K Lima       | ProdutoZ         |              40.0 |                2000.0 |
-|----------------------|------------------|-------------------|-----------------------|
+
+---
 
 ## QUESTÃO 12: 
 Seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
@@ -369,12 +377,14 @@ INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
 
 WHERE (trabalha_em.horas = 0) OR (trabalha_em.horas IS NULL) ;
 ```
-Tabela resultante:
+### Tabela 12:
 
 | Nome do departamento | Projeto Designado | Nome Funcionario | Horas |
 |----------------------|-------------------|------------------|-------|
 | Matriz               | Reogarnização     | Jorge E.Brito    |   0.0 |
-|----------------------|-------------------|------------------|-------|
+
+
+---
 
 ## QUESTÃO 13: 
 Durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente. 
@@ -406,7 +416,7 @@ INNER JOIN funcionario on dependente.cpf_funcionario = funcionario.cpf
 
 ORDER BY Idade DESC; /*Ordem de salario reajustado ASCENDENTE*/
 ```
-Tabela resultante:
+### Tabela 13:
 
 | Pessoas a presentear | Sexo      | Idade |
 |----------------------|-----------|-------|
@@ -425,8 +435,9 @@ Tabela resultante:
 | Alicia Wong          | FEMININO  |    36 |
 | Michael Silva        | MASCULINO |    34 |
 | Alicia Silva         | FEMININO  |    33 |
-|----------------------|-----------|-------|
 
+
+---
 
 ## QUESTÃO 14: 
 Prepare um relatório que exiba quantos funcionários cada departamento tem.
@@ -442,14 +453,16 @@ GROUP BY departamento.nome_departamento
 
 ORDER BY `Quantidade de Funcionarios` ASC; /* Uso de crase para selecinar alias da coluna com espaço (``)*/
 ```
-Tabela resultante:
+### Tabela 14:
 
 | Nome Departamentos | Quantidade de funcionarios |
 |--------------------|----------------------------|
 | Matriz             |                          1 |
 | Administração      |                          3 |
 | Pesquisa           |                          4 |
-|--------------------|----------------------------|
+
+
+---
 
 ## QUESTÃO 15: 
 Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
@@ -471,7 +484,7 @@ AND trabalha_em.cpf_funcionario = funcionario.cpf
 
 ORDER BY `Nome Completo` ASC;
 ```
-Tabela resultante:
+### Tabela 15:
 
 | Nome Completo    | Nome do Departamento | Projeto designado |
 |------------------|----------------------|-------------------|
@@ -491,5 +504,6 @@ Tabela resultante:
 | Joice A Leite    | Pesquisa             | ProdutoX          |
 | Jorge E Brito    | Matriz               | Reogarnização     |
 | Ronaldo K Lima   | Pesquisa             | ProdutoZ          |
-|------------------|----------------------|-------------------|
 
+
+---
