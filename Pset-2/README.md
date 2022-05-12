@@ -22,8 +22,6 @@ Tabela resultante:
 Prepare um relatório que mostre a média salarial dos homens e das mulheres.
 
 ```SQL
-
-
 SELECT 
 (CASE WHEN sexo = 'M' THEN 'MASCULINO'
 WHEN sexo = 'F' THEN 'FEMININO'
@@ -251,63 +249,181 @@ Tabela resultante:
 
 ### QUESTÃO 09: 
 Prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.
-```SQL
 
-```
-Tabela resultante:
 ```SQL
+SELECT 
+departamento.nome_departamento AS 'Nome do Departamento', 
+projeto.nome_projeto AS 'Nome do Projeto', 
+SUM(trabalha_em.horas) AS 'Horas Trabalhadas'
 
+FROM trabalha_em
+
+INNER JOIN projeto ON trabalha_em.numero_projeto = projeto.numero_projeto
+INNER JOIN departamento ON departamento.numero_departamento = projeto.numero_departamento
+GROUP BY projeto.nome_projeto, 
+ORDER BY SUM(trabalha_em.horas) ASC;
 ```
+<details>
+<summary> --> Tabela resultante:</summary>
+  
+ <sub><sup>HORAS ordenadas para melhor legibilidade</sup></sub>
+| Nome do Departamento | Nome do Projeto  | Horas Trabalhadas |
+|----------------------|------------------|-------------------|
+| Matriz               | Reogarnização    |              25.0 |
+| Pesquisa             | ProdutoY         |              27.5 |
+| Pesquisa             | ProdutoZ         |              50.0 |
+| Pesquisa             | ProdutoX         |              52.5 |
+| Administração        | Informatização   |              55.0 |
+| Administração        | Novosbenefícios  |              55.0 |
+|----------------------|------------------|-------------------|
+</details>
 
 ### QUESTÃO 10: 
 Prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
 ```SQL
+SELECT 
+departamento.nome_departamento AS 'Nome do Departamento', 
+TRUNCATE(AVG(salario),2) AS 'Media Salarial'
 
+FROM funcionario
+
+INNER JOIN departamento ON funcionario.numero_departamento = departamento.numero_departamento
+GROUP BY nome_departamento
+ORDER BY TRUNCATE(AVG(salario),2) ASC;
 ```
 Tabela resultante:
-```SQL
 
-```
+| Nome do Departamento | Media Salarial |
+|----------------------|----------------|
+| Administração        |       31000.00 |
+| Pesquisa             |       33250.00 |
+| Matriz               |       55000.00 |
+|----------------------|----------------|
 
 ### QUESTÃO 11: 
 Considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
 ```SQL
+SELECT 
+CONCAT(funcionario.primeiro_nome, ' ', funcionario.nome_meio, ' ', funcionario.ultimo_nome) AS 'Nome do funcionário', 
+projeto.nome_projeto AS 'Nome do Projeto', 
+SUM(trabalha_em.horas) AS 'Horas Trabalhadas',
+SUM(trabalha_em.horas)*50 AS 'Valor Total por Horas'
 
+FROM funcionario
+INNER JOIN trabalha_em on trabalha_em.cpf_funcionario = funcionario.cpf
+INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
+GROUP BY projeto.nome_projeto ASC
+ORDER BY primeiro_nome ASC, SUM(trabalha_em.horas) ASC;
 ```
 Tabela resultante:
-```SQL
 
-```
+| Nome do funcionário  | Nome do Projeto  | Horas Trabalhadas | Valor Total por Horas |
+|----------------------|------------------|-------------------|-----------------------|
+| Fernando T Wong      | Reogarnização    |              25.0 |                1250.0 |
+| Fernando T Wong      | ProdutoZ         |              50.0 |                2500.0 |
+| Fernando T Wong      | Informatização   |              55.0 |                2750.0 |
+| Jennifer S Souza     | Novosbenefícios  |              55.0 |                2750.0 |
+| João B Silva         | ProdutoY         |              27.5 |                1375.0 |
+| João B Silva         | ProdutoX         |              52.5 |                2625.0 |
+|----------------------|------------------|-------------------|-----------------------|
 
 ### QUESTÃO 12: 
 Seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
 ```SQL
+SELECT 
+departamento.nome_departamento AS 'Nome do departamento', 
+projeto.nome_projeto AS 'Projeto Designado', 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Nome Funcionario', 
+trabalha_em.horas AS 'Horas'
 
+FROM funcionario
+INNER JOIN departamento on departamento.numero_departamento = funcionario.numero_departamento
+INNER JOIN trabalha_em on trabalha_em.cpf_funcionario = funcionario.cpf
+INNER JOIN projeto on projeto.numero_projeto = trabalha_em.numero_projeto
+
+WHERE (trabalha_em.horas = 0) OR (trabalha_em.horas IS NULL) ;
 ```
 Tabela resultante:
-```SQL
 
-```
+| Nome do departamento | Projeto Designado | Nome Funcionario | Horas |
+|----------------------|-------------------|------------------|-------|
+| Matriz               | Reogarnização     | Jorge E.Brito    |   0.0 |
+|----------------------|-------------------|------------------|-------|
 
 ### QUESTÃO 13: 
 Durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente. 
 ```SQL
+SELECT 
+CONCAT(funcionario.primeiro_nome," ", funcionario.nome_meio,".",funcionario.ultimo_nome) AS 'Pessoas a presentear', 
+(CASE WHEN sexo = 'M' THEN 'MASCULINO'
+WHEN sexo = 'F' THEN 'FEMININO'
+END) 'Sexo',
+TIMESTAMPDIFF(YEAR, data_nascimento, CURDATE()) AS 'Idade'
 
+FROM funcionario
+
+UNION
+
+SELECT /*Lembrar de por prefixos em todos os dados por conta do JOIN*/
+CONCAT(dependente.nome_dependente," ",funcionario.ultimo_nome) AS 'Pessoas a presentear', 
+/*Considerando que dependentes compartilham sobrenomes por matrimônio e paternidade, 
+mas que não compartilham 100% de sobrenomes, exceto em caso de fraternidade, 
+assume-se apenas o ultimo nome do funcionário à que depende*/
+(CASE WHEN dependente.sexo = 'M' THEN 'MASCULINO'
+WHEN dependente.sexo = 'F' THEN 'FEMININO'
+END) 'Sexo',
+TIMESTAMPDIFF(YEAR, dependente.data_nascimento, CURDATE()) AS 'Idade'
+
+FROM dependente
+
+INNER JOIN funcionario on dependente.cpf_funcionario = funcionario.cpf
+
+ORDER BY Idade DESC; /*Ordem de salario reajustado ASCENDENTE*/
 ```
 Tabela resultante:
-```SQL
 
-```
+| Pessoas a presentear | Sexo      | Idade |
+|----------------------|-----------|-------|
+| Jorge E.Brito        | MASCULINO |    84 |
+| Antonio Souza        | MASCULINO |    80 |
+| Jennifer S.Souza     | FEMININO  |    80 |
+| Fernando T.Wong      | MASCULINO |    66 |
+| Janaína Wong         | FEMININO  |    64 |
+| Ronaldo K.Lima       | MASCULINO |    59 |
+| João B.Silva         | MASCULINO |    57 |
+| Elizabeth Silva      | FEMININO  |    55 |
+| Alice J.Zelaya       | FEMININO  |    54 |
+| André V.Pereira      | MASCULINO |    53 |
+| Joice A.Leite        | FEMININO  |    49 |
+| Tiago Wong           | MASCULINO |    38 |
+| Alicia Wong          | FEMININO  |    36 |
+| Michael Silva        | MASCULINO |    34 |
+| Alicia Silva         | FEMININO  |    33 |
+|----------------------|-----------|-------|
+
 
 ### QUESTÃO 14: 
 Prepare um relatório que exiba quantos funcionários cada departamento tem.
 ```SQL
+SELECT departamento.nome_departamento AS 'Nome Departamentos', 
+COUNT(funcionario.cpf) as 'Quantidade de funcionarios'
 
+FROM departamento
+
+INNER JOIN funcionario on funcionario.numero_departamento = departamento.numero_departamento
+
+GROUP BY departamento.nome_departamento
+
+ORDER BY `Quantidade de Funcionarios` ASC; /* Uso de crase para selecinar alias da coluna com espaço (``)*/
 ```
 Tabela resultante:
-```SQL
 
-```
+| Nome Departamentos | Quantidade de funcionarios |
+|--------------------|----------------------------|
+| Matriz             |                          1 |
+| Administração      |                          3 |
+| Pesquisa           |                          4 |
+|--------------------|----------------------------|
 
 ### QUESTÃO 15: 
 Como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório. 
